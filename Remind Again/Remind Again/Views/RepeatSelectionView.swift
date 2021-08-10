@@ -23,12 +23,12 @@ class RepeatSelectionViewModel: ObservableObject {
         
         let calendar = Calendar.current
         let firstWeekday = calendar.firstWeekday
-
+        
         let date = Date()
         var components = calendar.dateComponents([.year, .month, .day], from: date) // Today
         components.day = firstWeekday
         let firstDayOfWeek = calendar.date(from: components)! // First day of this week
-
+        
         var days: [(Int, Date)] = (0..<7).compactMap { index in
             var components = calendar.dateComponents([.year, .month, .day, .weekday], from: firstDayOfWeek)
             components.day = components.day! + index
@@ -40,7 +40,7 @@ class RepeatSelectionViewModel: ObservableObject {
             let weekdayCalculation = (weekday + index) % 7  // Depending on calender a day might return 8 - turn it to 0
             return (weekdayCalculation == 0 ? 7 : weekdayCalculation, date)  // turn 0 to 7
         }
-
+        
         let formatter = DateFormatter()
         formatter.locale = .current
         formatter.dateFormat = "EEEE"
@@ -52,7 +52,7 @@ class RepeatSelectionViewModel: ObservableObject {
         repeatTimes = days.map({ (weekday , date) in
             RepeatedDay(weekday: weekday, day: formatter.string(from: date), shortenedDay: shortenedFormatter.string(from: date))
         })
-
+        
         
     }
     
@@ -70,7 +70,7 @@ struct RepeatSelectionView: View {
             
             Section{
                 Button(action: {
-//                    let repeatedTimesInt = viewModel.repeatTimes.map { $0.weekday }
+                    //                    let repeatedTimesInt = viewModel.repeatTimes.map { $0.weekday }
                     if repeatTime == viewModel.repeatTimes {
                         repeatTime = []
                     } else {
@@ -100,7 +100,7 @@ struct RepeatSelectionView: View {
                     }
                 })
             }
-
+            
             
         }
     }

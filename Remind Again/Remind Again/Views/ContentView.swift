@@ -8,6 +8,18 @@
 import SwiftUI
 import CoreData
 
+
+struct ReminderRegistry {
+    let remindItemId: UUID
+    let weekday: Int
+    let hour: Int
+    let mimute: Int
+    let done: Bool
+}
+
+
+
+
 class RemindItemViewModel: ObservableObject {
     
     let dayFormatter : DateFormatter
@@ -17,7 +29,7 @@ class RemindItemViewModel: ObservableObject {
     var title : String {
         remindItem.title!
     }
-
+    
     var days : [String] {
         guard let days = remindItem.remindDays?.allObjects as? [RemindDay] else {
             return []
@@ -57,7 +69,7 @@ class RemindItemViewModel: ObservableObject {
         
         dayFormatter.locale = .current
         dayFormatter.dateFormat = "E"
-
+        
         hourMinFormatter = DateFormatter()
         hourMinFormatter.locale = .current
         hourMinFormatter.dateFormat = "HH:mm"
@@ -72,7 +84,8 @@ struct RemindItemView: View {
     
     @State var isExpanded = false
     @StateObject var viewModel : RemindItemViewModel
-    
+    @Environment(\.managedObjectContext) var viewContext
+
     init (remindItem : RemindItem) {
         _viewModel = StateObject(wrappedValue: RemindItemViewModel(remindItem: remindItem))
         
@@ -85,7 +98,16 @@ struct RemindItemView: View {
         Button(action: {
             isExpanded.toggle()
         }) {
-            Text(viewModel.title)
+            HStack {
+                Text(viewModel.title)
+                Spacer()
+                Button {
+                    // Add Edit View
+                } label: {
+                    Image(systemName: "square.and.pencil")
+                }
+            }
+
         }
         if isExpanded {
             
@@ -97,9 +119,20 @@ struct RemindItemView: View {
                             .frame(width: 69, alignment: .leading)
                         ScrollView(.horizontal) {
                             HStack {
-                                ForEach(viewModel.hourAndMinutes, id: \.self, content: {
-                                    Text($0)
-                                    Image(systemName: "checkmark")
+                                ForEach(viewModel.hourAndMinutes, id: \.self, content: { hourMinute in
+                                    Text(hourMinute)
+                                    Button {
+//                                        let fetchRequest = FetchRequest(entity: <#T##NSEntityDescription#>, sortDescriptors: <#T##[NSSortDescriptor]#>)
+//                                        let result = viewContext.execute(fetchRequest)
+//                                        if let registry = result.first(where: {
+//                                            return $0.weekday == weekday && $0.hour == hourMinute.hour && $0.minute == hourMinute.minute
+//                                        }) {
+//                                            registry.done.toggle()
+//                                        }
+                                    } label: {
+                                        Image(systemName: "checkmark")
+                                    }
+
                                 })
                             }
                         }

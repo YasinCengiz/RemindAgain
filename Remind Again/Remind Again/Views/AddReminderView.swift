@@ -8,36 +8,7 @@
 import SwiftUI
 import UserNotifications
 
-//class AddReminderViewModel : ObservableObject {
-//
-//    let remindHourMinutes : Set<RemindHourMinute> = []
-//    let remindDays : Set<RemindDay> = []
-//
-//    init() {
-//
-//        for hour in remindTimes {
-//            var components = Calendar.current.dateComponents([.hour, .minute], from: hour)
-//            let hourAndMinute = RemindHourMinute(context: viewContext)
-//            hourAndMinute.hour = components.hour!
-//            hourAndMinute.minute = components.minute!
-//            remindHourMinutes.insert(hourAndMinute)
-//
-//            return hourAndMinute
-//        }
-//
-//        for day in repeatTime {
-//
-//            let remindDay = RemindDay(context: viewContext)
-//            remindDay.weekday = Int16(components.weekday)
-//            remindDays.insert(remindDay)
-//            components.weekday = day.weekday
-//        }
-//
-//
-//    }
-//
-//
-//}
+
 
 
 
@@ -50,10 +21,7 @@ struct AddReminderView: View {
     @State private var remindTimes : [Date] = [Date()]
     @State var repeatTime: [RepeatedDay] = []
     @State private var notificationDenied = true
-    
 
-//    let addReminder = [AddReminderViewModel]()
-    
     
     var body: some View {
         NavigationView {
@@ -88,10 +56,10 @@ struct AddReminderView: View {
                 }
                 Section(content: {
                     Button("Save") {
-                       
+                        
                         var remindHourMinutes : Set<RemindHourMinute> = []
                         var remindDays : Set<RemindDay> = []
-
+                        
                         for hourMinute in remindTimes {
                             
                             var components = Calendar.current.dateComponents([.hour, .minute],
@@ -100,16 +68,16 @@ struct AddReminderView: View {
                             hourAndMinute.hour = Int16(components.hour!)
                             hourAndMinute.minute = Int16(components.minute!)
                             remindHourMinutes.insert(hourAndMinute)
-
+                            
                         }
-
+                        
                         for day in repeatTime {
-
+                            
                             let remindDay = RemindDay(context: viewContext)
                             remindDay.weekday = Int16(day.weekday)
                             remindDays.insert(remindDay)
-//                            print("DEBUG: \(day)")
-
+                            //print("DEBUG: \(day)")
+                            
                         }
                         
                         for remindDay in remindDays{
@@ -141,17 +109,12 @@ struct AddReminderView: View {
                             
                             
                         }
-
-
                         
-                        
-
                         let newItem = RemindItem(context: viewContext)
                         newItem.title = title
-                        newItem.done = false
                         newItem.remindDays = remindDays as NSSet
                         newItem.remindHourMinutes = remindHourMinutes as NSSet
-
+                        
                         do {
                             try viewContext.save()
                             print("Data Saved")

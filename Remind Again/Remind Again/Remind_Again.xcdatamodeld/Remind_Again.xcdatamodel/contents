@@ -10,14 +10,22 @@
         <relationship name="item" maxCount="1" deletionRule="Nullify" destinationEntity="RemindItem" inverseName="remindHourMinutes" inverseEntity="RemindItem"/>
     </entity>
     <entity name="RemindItem" representedClassName="RemindItem" syncable="YES" codeGenerationType="class">
-        <attribute name="done" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="title" attributeType="String"/>
         <relationship name="remindDays" toMany="YES" deletionRule="Cascade" destinationEntity="RemindDay" inverseName="item" inverseEntity="RemindDay"/>
         <relationship name="remindHourMinutes" toMany="YES" deletionRule="Cascade" destinationEntity="RemindHourMinute" inverseName="item" inverseEntity="RemindHourMinute"/>
     </entity>
+    <entity name="RemindRegistry" representedClassName="RemindRegistry" syncable="YES" codeGenerationType="class">
+        <attribute name="done" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="hour" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="minute" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="remindItemID" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="weekday" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
     <elements>
-        <element name="RemindDay" positionX="111.7645263671875" positionY="10.63414001464844" width="128" height="73"/>
-        <element name="RemindHourMinute" positionX="27" positionY="27" width="128" height="74"/>
+        <element name="RemindDay" positionX="218.18359375" positionY="-59.83384704589844" width="128" height="73"/>
+        <element name="RemindHourMinute" positionX="214.2733154296875" positionY="75.95050048828125" width="128" height="88"/>
         <element name="RemindItem" positionX="-62.7713623046875" positionY="-24.20014953613281" width="128" height="103"/>
+        <element name="RemindRegistry" positionX="-67.750732421875" positionY="143.9545288085938" width="128" height="118"/>
     </elements>
 </model>
