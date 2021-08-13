@@ -23,7 +23,7 @@ struct PersistenceController {
                 remindItems.hour = Int16(index * 2)
                 remindItems.minute = Int16(index * 5)
                 remindItems.done = false
-                remindItems.id = UUID()
+                remindItems.registryID = UUID()
                 return remindItems
             }))
             

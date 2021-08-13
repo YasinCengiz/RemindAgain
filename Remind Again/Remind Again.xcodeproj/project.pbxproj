@@ -12,10 +12,11 @@
 		843AC94E26AED6A900D939F0 /* Remind_AgainApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843AC94D26AED6A900D939F0 /* Remind_AgainApp.swift */; };
 		843AC95026AED6A900D939F0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843AC94F26AED6A900D939F0 /* ContentView.swift */; };
 		843AC95226AED6AC00D939F0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 843AC95126AED6AC00D939F0 /* Assets.xcassets */; };
-		843AC95526AED6AC00D939F0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 843AC95426AED6AC00D939F0 /* Preview Assets.xcassets */; };
 		843AC95726AED6AC00D939F0 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843AC95626AED6AC00D939F0 /* Persistence.swift */; };
 		843AC95A26AED6AC00D939F0 /* Remind_Again.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 843AC95826AED6AC00D939F0 /* Remind_Again.xcdatamodeld */; };
 		843AC96226AED9F500D939F0 /* AddReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843AC96126AED9F500D939F0 /* AddReminderView.swift */; };
+		84B8A8D126C6C01B009DF0B2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 843AC95426AED6AC00D939F0 /* Preview Assets.xcassets */; };
+		84DE14BD26C6CC73004E5D02 /* NotificationCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DE14BC26C6CC72004E5D02 /* NotificationCenterDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		843AC95926AED6AC00D939F0 /* Remind_Again.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Remind_Again.xcdatamodel; sourceTree = "<group>"; };
 		843AC95B26AED6AC00D939F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		843AC96126AED9F500D939F0 /* AddReminderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReminderView.swift; sourceTree = "<group>"; };
+		84DE14BC26C6CC72004E5D02 /* NotificationCenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				843AC94D26AED6A900D939F0 /* Remind_AgainApp.swift */,
+				84DE14BC26C6CC72004E5D02 /* NotificationCenterDelegate.swift */,
 				84356B4A26B5C88500E67DF6 /* Views */,
 				843AC95126AED6AC00D939F0 /* Assets.xcassets */,
 				843AC95626AED6AC00D939F0 /* Persistence.swift */,
@@ -154,7 +157,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				843AC95526AED6AC00D939F0 /* Preview Assets.xcassets in Resources */,
+				84B8A8D126C6C01B009DF0B2 /* Preview Assets.xcassets in Resources */,
 				843AC95226AED6AC00D939F0 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -172,6 +175,7 @@
 				843AC96226AED9F500D939F0 /* AddReminderView.swift in Sources */,
 				84356B5026B5CAC600E67DF6 /* RepeatSelectionView.swift in Sources */,
 				843AC95A26AED6AC00D939F0 /* Remind_Again.xcdatamodeld in Sources */,
+				84DE14BD26C6CC73004E5D02 /* NotificationCenterDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

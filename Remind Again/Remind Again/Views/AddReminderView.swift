@@ -54,7 +54,6 @@ struct AddReminderView: View {
                 }
                 Section(content: {
                     Button("Save") {
-                        
                         var registries : Set<RemindRegistry> = []
                         
                         for day in repeatTime {
@@ -65,7 +64,7 @@ struct AddReminderView: View {
                                 registry.weekday = Int16( day.weekday )
                                 registry.hour = Int16( components.hour! )
                                 registry.minute = Int16 ( components.minute! )
-                                registry.id = UUID()
+                                registry.registryID = UUID()
                                 registries.insert(registry)
                                 print("DEBUG: \(registry)")
                                 
@@ -81,20 +80,30 @@ struct AddReminderView: View {
 //                                content.title = title
                                 content.sound = UNNotificationSound.default
                                 
-                                let done = UNNotificationAction(identifier: "done", title: "Done", options: .foreground)
-                                let cancel = UNNotificationAction(identifier: "cancel", title: "Cancel", options: .destructive)
-//                                let categories = UNNotificationCategory(identifier: "action", actions: [done, cancel], intentIdentifiers: [])
-                                let categories = UNNotificationCategory(identifier: "action", actions: [done, cancel], intentIdentifiers: [])
+                                // Define the custom actions.
+                                let doneAction = UNNotificationAction(identifier: "DONE_ACTION",
+                                                                      title: "Done",
+                                                                      options: [])
+                                // Define the notification type
+                                let doneActionCategory =
+                                      UNNotificationCategory(identifier: "DONE_ACTION_NOTIFIER",
+                                      actions: [doneAction],
+                                      intentIdentifiers: [],
+                                      hiddenPreviewsBodyPlaceholder: "",
+                                      options: .customDismissAction)
+                                
+                                content.userInfo = [ "REGISTRY_ID" : registry.registryID!.uuidString ]
+                                content.categoryIdentifier = "DONE_ACTION_NOTIFIER"
                                 
                                 let trigger = UNCalendarNotificationTrigger(
                                     dateMatching: dateComponents, repeats: true)
                                 // Create the request
-                                let request = UNNotificationRequest(identifier: registry.id!.uuidString,
+                                let request = UNNotificationRequest(identifier: registry.registryID!.uuidString,
                                                                     content: content, trigger: trigger)
                                 // Schedule the request with the system.
                                 let notificationCenter = UNUserNotificationCenter.current()
-                                notificationCenter.setNotificationCategories([categories])
-                                content.categoryIdentifier = "action"
+                                // Register the notification type.
+                                notificationCenter.setNotificationCategories([doneActionCategory])
                                 
                                 notificationCenter.add(request) { error in
                                     if error != nil {

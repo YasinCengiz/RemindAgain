@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct Remind_AgainApp: App {
     let persistenceController = PersistenceController.shared
+    let notificationCenterDelegate = NotificationCenterDelegate.shared
 
     var body: some Scene {
         WindowGroup {
