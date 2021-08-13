@@ -1,31 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19186" systemVersion="20G80" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="RemindDay" representedClassName="RemindDay" syncable="YES" codeGenerationType="class">
-        <attribute name="weekday" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="item" maxCount="1" deletionRule="Nullify" destinationEntity="RemindItem" inverseName="remindDays" inverseEntity="RemindItem"/>
-    </entity>
-    <entity name="RemindHourMinute" representedClassName="RemindHourMinute" syncable="YES" codeGenerationType="class">
-        <attribute name="hour" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="minute" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="item" maxCount="1" deletionRule="Nullify" destinationEntity="RemindItem" inverseName="remindHourMinutes" inverseEntity="RemindItem"/>
-    </entity>
     <entity name="RemindItem" representedClassName="RemindItem" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="title" attributeType="String"/>
-        <relationship name="remindDays" toMany="YES" deletionRule="Cascade" destinationEntity="RemindDay" inverseName="item" inverseEntity="RemindDay"/>
-        <relationship name="remindHourMinutes" toMany="YES" deletionRule="Cascade" destinationEntity="RemindHourMinute" inverseName="item" inverseEntity="RemindHourMinute"/>
+        <relationship name="remindRegistry" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RemindRegistry"/>
     </entity>
     <entity name="RemindRegistry" representedClassName="RemindRegistry" syncable="YES" codeGenerationType="class">
         <attribute name="done" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="hour" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="minute" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="remindItemID" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="weekday" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <elements>
-        <element name="RemindDay" positionX="218.18359375" positionY="-59.83384704589844" width="128" height="73"/>
-        <element name="RemindHourMinute" positionX="214.2733154296875" positionY="75.95050048828125" width="128" height="88"/>
-        <element name="RemindItem" positionX="-62.7713623046875" positionY="-24.20014953613281" width="128" height="103"/>
-        <element name="RemindRegistry" positionX="-67.750732421875" positionY="143.9545288085938" width="128" height="118"/>
+        <element name="RemindItem" positionX="-62.7713623046875" positionY="-24.20014953613281" width="128" height="88"/>
+        <element name="RemindRegistry" positionX="242.7991943359375" positionY="-19.73724365234375" width="128" height="118"/>
     </elements>
 </model>

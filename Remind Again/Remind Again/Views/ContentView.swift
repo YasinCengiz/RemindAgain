@@ -7,76 +7,101 @@
 
 import SwiftUI
 import CoreData
-
-
-struct ReminderRegistry {
-    let remindItemId: UUID
-    let weekday: Int
-    let hour: Int
-    let mimute: Int
-    let done: Bool
-}
-
-
-
+import OrderedCollections
 
 class RemindItemViewModel: ObservableObject {
     
     let dayFormatter : DateFormatter
-    let hourMinFormatter : DateFormatter
     let remindItem : RemindItem
+    @State var registry: OrderedDictionary<Int, [RemindRegistry]>
     
     var title : String {
         remindItem.title!
     }
     
-    var days : [String] {
-        guard let days = remindItem.remindDays?.allObjects as? [RemindDay] else {
-            return []
+    func weekday(from weekday: Int) -> String {
+        if let date = Calendar.current.date(bySetting: .weekday, value: Int(weekday), of: Date()) {
+            return dayFormatter.string(from: date)
+        } else {
+            return ""
         }
-        return days.sorted(by: {
-            return $0.weekday < $1.weekday
-        }).compactMap({ day in
-            if let date = Calendar.current.date(bySetting: .weekday, value: Int(day.weekday), of: Date()) {
-                return dayFormatter.string(from: date)
-            } else {
-                return nil
-            }
-        })
-    }
-    
-    var hourAndMinutes : [String] {
-        guard let hours = remindItem.remindHourMinutes?.allObjects as? [RemindHourMinute] else {
-            return []
-        }
-        return hours.compactMap({ hourMinute in
-            var components = DateComponents()
-            components.hour = Int(hourMinute.hour)
-            components.minute = Int(hourMinute.minute)
-            
-            if let hoursMinutes = Calendar.current.date(from: components) {
-                return hourMinFormatter.string(from: hoursMinutes)
-            } else {
-                return nil
-            }
-        })
-
     }
     
     init (remindItem : RemindItem) {
         self.remindItem = remindItem
         dayFormatter = DateFormatter()
-        
         dayFormatter.locale = .current
         dayFormatter.dateFormat = "E"
         
-        hourMinFormatter = DateFormatter()
-        hourMinFormatter.locale = .current
-        hourMinFormatter.dateFormat = "HH:mm"
+        var result = OrderedDictionary<Int, [RemindRegistry]>()
+        
+        guard let r = remindItem.remindRegistry?.allObjects as? [RemindRegistry] else {
+            _registry = State< OrderedDictionary<Int, [RemindRegistry]> >(wrappedValue: result)
+            return
+        }
+        
+        result = r.sorted { r1, r2 in
+            if r1.weekday == r2.weekday {
+                if r1.hour == r2.hour {
+                    return r1.minute < r2.minute
+                }
+                return r1.hour < r2.hour
+            }
+            return r1.weekday < r2.weekday
+        }
+        .reduce(OrderedDictionary<Int, [RemindRegistry]>()) { partialResult, reg in
+            var result = partialResult
+            if var list = result[Int(reg.weekday)] {
+                list.append(reg)
+                result[Int(reg.weekday)] = list
+            } else {
+                result[Int(reg.weekday)] = [reg]
+            }
+            return result
+        }
+        
+        _registry = State< OrderedDictionary<Int, [RemindRegistry]> >(wrappedValue: result)
+    }
+}
+
+struct HourMinuteView: View {
+    
+    @Environment(\.managedObjectContext) var viewContext
+    @ObservedObject var registry: RemindRegistry
+    let hourMinFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.locale = .current
+        formatter.dateFormat = "HH:mm"
+        return formatter
+    }()
+    
+    var body: some View {
+        Button(action : {
+            registry.done.toggle()
+            do {
+                try viewContext.save()
+            } catch {
+                fatalError("Unresolved error")
+            }
+        }, label: {
+            Text(hourMinute(from: Int(registry.hour), Int(registry.minute)))
+                .foregroundColor(.primary)
+            Image(systemName: "checkmark")
+                .foregroundColor(registry.done ? .accentColor : .gray)
+        })
     }
     
-    
-    
+    func hourMinute(from hour: Int, _ minute: Int) -> String {
+        var components = DateComponents()
+        components.hour = hour
+        components.minute = minute
+        
+        if let hoursMinutes = Calendar.current.date(from: components) {
+            return hourMinFormatter.string(from: hoursMinutes)
+        } else {
+            return ""
+        }
+    }
 }
 
 
@@ -85,69 +110,48 @@ struct RemindItemView: View {
     @State var isExpanded = false
     @StateObject var viewModel : RemindItemViewModel
     @Environment(\.managedObjectContext) var viewContext
-
+    
     init (remindItem : RemindItem) {
         _viewModel = StateObject(wrappedValue: RemindItemViewModel(remindItem: remindItem))
-        
     }
     
-    
     var body: some View {
-        
-        
-        Button(action: {
-            isExpanded.toggle()
-        }) {
-            HStack {
-                Text(viewModel.title)
-                Spacer()
-                Button {
-                    // Add Edit View
-                } label: {
-                    Image(systemName: "square.and.pencil")
+        VStack {
+            Button(action: {
+                isExpanded.toggle()
+            }) {
+                HStack {
+                    Text(viewModel.title)
+                    Spacer()
+                    Button {
+                        // Add Edit View
+                    } label: {
+                        Image(systemName: "square.and.pencil")
+                    }
                 }
-            }
-
-        }
-        if isExpanded {
-            
-            VStack {
                 
-                ForEach(viewModel.days, id: \.self, content: { day in
-                    HStack {
-                        Text(day)
-                            .frame(width: 69, alignment: .leading)
-                        ScrollView(.horizontal) {
-                            HStack {
-                                ForEach(viewModel.hourAndMinutes, id: \.self, content: { hourMinute in
-                                    Text(hourMinute)
-                                    Button {
-//                                        let fetchRequest = FetchRequest(entity: <#T##NSEntityDescription#>, sortDescriptors: <#T##[NSSortDescriptor]#>)
-//                                        let result = viewContext.execute(fetchRequest)
-//                                        if let registry = result.first(where: {
-//                                            return $0.weekday == weekday && $0.hour == hourMinute.hour && $0.minute == hourMinute.minute
-//                                        }) {
-//                                            registry.done.toggle()
-//                                        }
-                                    } label: {
-                                        Image(systemName: "checkmark")
+            }
+            
+            if isExpanded {
+                VStack {
+                    ForEach(viewModel.registry.keys, id: \.self) { weekday in
+                        HStack {
+                            Text(viewModel.weekday(from: weekday))
+                                .frame(width: 69, alignment: .leading)
+                            ScrollView(.horizontal) {
+                                HStack {
+                                    if let registries = viewModel.registry[weekday] {
+                                        ForEach(registries) { registry in
+                                            HourMinuteView(registry: registry)
+                                        }
                                     }
-
-                                })
+                                }
                             }
                         }
                     }
-                })
-                
-                
-                
+                }
             }
         }
-        
-        
-        
-        
-        
     }
 }
 
@@ -164,7 +168,6 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List {
-                
                 ForEach(items) { item in
                     RemindItemView(remindItem: item)
                 }

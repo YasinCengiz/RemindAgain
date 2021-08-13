@@ -16,17 +16,17 @@ struct PersistenceController {
         for index in 0..<7 {
             let newItem = RemindItem(context: viewContext)
             newItem.title = "Item \(index)"
-            newItem.remindDays = NSSet(array: (0..<5).map({ index in
-                let remindDay = RemindDay(context: viewContext)
-                remindDay.weekday = Int16(index)
-                return remindDay
+            newItem.id = UUID()
+            newItem.remindRegistry = NSSet(array: (2..<10).map({ index in
+                let remindItems = RemindRegistry(context: viewContext)
+                remindItems.weekday = Int16(index / 2)
+                remindItems.hour = Int16(index * 2)
+                remindItems.minute = Int16(index * 5)
+                remindItems.done = false
+                remindItems.id = UUID()
+                return remindItems
             }))
-            newItem.remindHourMinutes = NSSet(array: (0..<7).map({ index in
-                let remindHourMinute = RemindHourMinute(context: viewContext)
-                remindHourMinute.hour = Int16(index * 3)
-                remindHourMinute.minute = Int16(index * 5)
-                return remindHourMinute
-            }))
+            
         }
         do {
             try viewContext.save()

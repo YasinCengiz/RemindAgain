@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8434808326C3125B00F62B66 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 8434808226C3125B00F62B66 /* OrderedCollections */; };
 		84356B5026B5CAC600E67DF6 /* RepeatSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84356B4F26B5CAC600E67DF6 /* RepeatSelectionView.swift */; };
 		843AC94E26AED6A900D939F0 /* Remind_AgainApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843AC94D26AED6A900D939F0 /* Remind_AgainApp.swift */; };
 		843AC95026AED6A900D939F0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843AC94F26AED6A900D939F0 /* ContentView.swift */; };
@@ -35,6 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8434808326C3125B00F62B66 /* OrderedCollections in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,6 +107,9 @@
 			dependencies = (
 			);
 			name = "Remind Again";
+			packageProductDependencies = (
+				8434808226C3125B00F62B66 /* OrderedCollections */,
+			);
 			productName = "Remind Again";
 			productReference = 843AC94A26AED6A900D939F0 /* Remind Again.app */;
 			productType = "com.apple.product-type.application";
@@ -132,6 +137,9 @@
 				Base,
 			);
 			mainGroup = 843AC94126AED6A900D939F0;
+			packageReferences = (
+				8434808126C3125B00F62B66 /* XCRemoteSwiftPackageReference "swift-collections" */,
+			);
 			productRefGroup = 843AC94B26AED6A900D939F0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -221,7 +229,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -276,7 +284,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -296,7 +304,7 @@
 				DEVELOPMENT_TEAM = VRT2RAXRCV;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Remind Again/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -318,7 +326,7 @@
 				DEVELOPMENT_TEAM = VRT2RAXRCV;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Remind Again/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -352,6 +360,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		8434808126C3125B00F62B66 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.5;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8434808226C3125B00F62B66 /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8434808126C3125B00F62B66 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = OrderedCollections;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		843AC95826AED6AC00D939F0 /* Remind_Again.xcdatamodeld */ = {

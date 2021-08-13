@@ -10,8 +10,6 @@ import UserNotifications
 
 
 
-
-
 struct AddReminderView: View {
     
     @Environment(\.managedObjectContext) var viewContext
@@ -57,63 +55,60 @@ struct AddReminderView: View {
                 Section(content: {
                     Button("Save") {
                         
-                        var remindHourMinutes : Set<RemindHourMinute> = []
-                        var remindDays : Set<RemindDay> = []
-                        
-                        for hourMinute in remindTimes {
-                            
-                            var components = Calendar.current.dateComponents([.hour, .minute],
-                                                                             from: hourMinute)
-                            let hourAndMinute = RemindHourMinute(context: viewContext)
-                            hourAndMinute.hour = Int16(components.hour!)
-                            hourAndMinute.minute = Int16(components.minute!)
-                            remindHourMinutes.insert(hourAndMinute)
-                            
-                        }
+                        var registries : Set<RemindRegistry> = []
                         
                         for day in repeatTime {
-                            
-                            let remindDay = RemindDay(context: viewContext)
-                            remindDay.weekday = Int16(day.weekday)
-                            remindDays.insert(remindDay)
-                            //print("DEBUG: \(day)")
-                            
-                        }
-                        
-                        for remindDay in remindDays{
-                            
-                            for remindHourMinute in remindHourMinutes {
+                            for hour in remindTimes {
+                                let components = Calendar.current.dateComponents([.hour, .minute],
+                                                                                 from: hour)
+                                let registry = RemindRegistry(context: viewContext)
+                                registry.weekday = Int16( day.weekday )
+                                registry.hour = Int16( components.hour! )
+                                registry.minute = Int16 ( components.minute! )
+                                registry.id = UUID()
+                                registries.insert(registry)
+                                print("DEBUG: \(registry)")
                                 
-                                var components = DateComponents()
-                                components.weekday = Int(remindDay.weekday)
-                                components.hour = Int(remindHourMinute.hour)
-                                components.minute = Int(remindHourMinute.minute)
+                                var dateComponents = DateComponents()
+                                dateComponents.weekday = Int(registry.weekday)
+                                dateComponents.hour = Int(registry.hour)
+                                dateComponents.minute = Int(registry.minute)
                                 
                                 let content = UNMutableNotificationContent()
                                 content.body = title
+//                                content.body = "\(dateComponents.weekday) + (dateComponents.hour), dateComponents.minute) "
+//                                content.body = String(registry.hour) + " " + String(registry.minute)
+//                                content.title = title
+                                content.sound = UNNotificationSound.default
+                                
+                                let done = UNNotificationAction(identifier: "done", title: "Done", options: .foreground)
+                                let cancel = UNNotificationAction(identifier: "cancel", title: "Cancel", options: .destructive)
+//                                let categories = UNNotificationCategory(identifier: "action", actions: [done, cancel], intentIdentifiers: [])
+                                let categories = UNNotificationCategory(identifier: "action", actions: [done, cancel], intentIdentifiers: [])
+                                
                                 let trigger = UNCalendarNotificationTrigger(
-                                    dateMatching: components, repeats: true)
+                                    dateMatching: dateComponents, repeats: true)
                                 // Create the request
-                                let uuidString = UUID().uuidString
-                                let request = UNNotificationRequest(identifier: uuidString,
+                                let request = UNNotificationRequest(identifier: registry.id!.uuidString,
                                                                     content: content, trigger: trigger)
                                 // Schedule the request with the system.
                                 let notificationCenter = UNUserNotificationCenter.current()
-                                notificationCenter.add(request) { (error) in
+                                notificationCenter.setNotificationCategories([categories])
+                                content.categoryIdentifier = "action"
+                                
+                                notificationCenter.add(request) { error in
                                     if error != nil {
                                         print(error?.localizedDescription ?? "Error at Notification Request")
                                     }
                                 }
                                 
                             }
-                            
-                            
                         }
                         
                         let newItem = RemindItem(context: viewContext)
+                        newItem.id = UUID()
                         newItem.title = title
-                        newItem.remindDays = remindDays as NSSet
-                        newItem.remindHourMinutes = remindHourMinutes as NSSet
+                        newItem.remindRegistry = registries as NSSet
                         
                         do {
                             try viewContext.save()
