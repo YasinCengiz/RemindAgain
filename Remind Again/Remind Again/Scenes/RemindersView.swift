@@ -7,7 +7,6 @@
 
 import SwiftUI
 import CoreData
-import OrderedCollections
 
 struct RemindersView: View {
     
@@ -18,11 +17,12 @@ struct RemindersView: View {
     private var items: FetchedResults<RemindItem>
     @State private var showingAddScreen = false
     @State private var showingEditScreen = false
+    @State private var showingAboutScreen = false
     
     var body: some View {
         NavigationView {
             List {
-                ForEach(items) { item in
+                ForEach(items, id: \.id) { item in
                     RemindItemRowView(remindItem: item)
                         .swipeActions {
                             Button(role: .destructive) {
@@ -42,22 +42,33 @@ struct RemindersView: View {
                         .sheet(isPresented: $showingEditScreen) {
                             RemindItemView(remindItem: item, context: viewContext)
                         }
-                    
                 }
             }
             .navigationTitle("Reminders")
-            .navigationBarItems(trailing: Button(action: {
-                self.showingAddScreen.toggle()
-            } ){
-                Image(systemName: "plus")
-            })
-            .sheet(isPresented: $showingAddScreen) {
-                RemindItemView(context: viewContext)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        showingAddScreen.toggle()
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                    .sheet(isPresented: $showingAddScreen) {
+                        RemindItemView(context: {
+                            let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+                            context.parent = viewContext
+                            return context
+                        }())
+                    }
+                }
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        showingAboutScreen.toggle()
+                    } label: {
+                        Image(systemName: "info.circle")
+                    }
+                }
             }
-            
         }
-        
-        
     }
     
     private func deleteItems(item: RemindItem) {

@@ -8,43 +8,44 @@
 import SwiftUI
 import CoreData
 
+struct RemindItemTitleView: View {
+    
+    @ObservedObject var remindItem: RemindItem
+    
+    var body: some View {
+        Text(remindItem.title ?? "Error Getting Title")
+            .foregroundColor(Color(uiColor: .label))
+    }
+}
+
 struct RemindItemRowView: View {
     
+    @Environment(\.managedObjectContext) var viewContext
     @State var isExpanded = false
     @StateObject var viewModel : RemindItemRowViewModel
-    @Environment(\.managedObjectContext) var viewContext
     
     init (remindItem : RemindItem) {
         _viewModel = StateObject(wrappedValue: RemindItemRowViewModel(remindItem: remindItem))
     }
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             Button(action: {
                 isExpanded.toggle()
             }) {
-                HStack {
-                    Text(viewModel.remindItem.title ?? "Error Getting Title")
-                }
-                
+                RemindItemTitleView(remindItem: viewModel.remindItem)
+//                Text(viewModel.remindItem.title ?? "Error Getting Title")
+//                    .foregroundColor(Color(uiColor: .label))
             }
-            
+            .frame(minHeight: 40)
             if isExpanded {
-                VStack {
-                    ForEach(viewModel.registry.keys, id: \.self) { weekday in
-                        HStack {
-                            Text(viewModel.weekday(from: weekday))
-                                .frame(width: 69, alignment: .leading)
-                            ScrollView(.horizontal) {
-                                HStack {
-                                    if let registries = viewModel.registry[weekday] {
-                                        ForEach(registries) { registry in
-                                            HourMinuteView(registry: registry)
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                if let weekday = viewModel.registries.first?.weekday {
+                    Text(viewModel.weekday(from: Int(weekday)))
+                        .font(.caption).bold()
+                }
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))], spacing: 5) {
+                    ForEach(viewModel.registries, id: \.registryID) { registry in
+                        HourMinuteView(registry: registry)
                     }
                 }
             }

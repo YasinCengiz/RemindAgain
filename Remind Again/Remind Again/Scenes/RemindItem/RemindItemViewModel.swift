@@ -118,9 +118,12 @@ class RemindItemViewModel: ObservableObject {
         let doneAction = UNNotificationAction(identifier: "DONE_ACTION",
                                               title: "Done",
                                               options: [])
+        let viewAction = UNNotificationAction(identifier: "VIEW_ACTION",
+                                              title: "View",
+                                              options: .foreground)
         // Define the notification type
-        let doneActionCategory = UNNotificationCategory(identifier: "DONE_ACTION_NOTIFIER",
-                                                        actions: [doneAction],
+        let actionCategory = UNNotificationCategory(identifier: "DONE_ACTION_NOTIFIER",
+                                                        actions: [viewAction ,doneAction],
                                                         intentIdentifiers: [],
                                                         hiddenPreviewsBodyPlaceholder: "",
                                                         options: .customDismissAction)
@@ -136,7 +139,7 @@ class RemindItemViewModel: ObservableObject {
         // Schedule the request with the system.
         let notificationCenter = UNUserNotificationCenter.current()
         // Register the notification type.
-        notificationCenter.setNotificationCategories([doneActionCategory])
+        notificationCenter.setNotificationCategories([actionCategory])
         
         notificationCenter.add(request) { error in
             if error != nil {

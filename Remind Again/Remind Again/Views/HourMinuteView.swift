@@ -31,11 +31,17 @@ struct HourMinuteView: View {
                 fatalError("Unresolved error")
             }
         }, label: {
-            Text(hourMinute(from: Int(registry.hour), Int(registry.minute)))
-                .foregroundColor(.primary)
-            Image(systemName: "checkmark")
-                .foregroundColor(registry.done ? .accentColor : .gray)
+            HStack(spacing: 5) {
+                Text(hourMinute(from: Int(registry.hour), Int(registry.minute)))
+                    .foregroundColor(.primary)
+                if registry.done {
+                    Image(systemName: "checkmark")
+                        .foregroundColor(.blue)
+                }
+            }
+            .fixedSize()
         })
+            .buttonStyle(PlainButtonStyle())
     }
     
     func hourMinute(from hour: Int, _ minute: Int) -> String {
