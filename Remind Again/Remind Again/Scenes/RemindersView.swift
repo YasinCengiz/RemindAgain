@@ -8,22 +8,30 @@
 import SwiftUI
 import CoreData
 
+final class RemindersViewModel: ObservableObject {
+    
+    var editItem: RemindItem?
+    
+}
+
 struct RemindersView: View {
     
     @Environment(\.managedObjectContext) var viewContext
     @FetchRequest(entity: RemindItem.entity(),
                   sortDescriptors: [NSSortDescriptor(keyPath: \RemindItem.title, ascending: true)])
-    
     private var items: FetchedResults<RemindItem>
+    
     @State private var showingAddScreen = false
     @State private var showingEditScreen = false
     @State private var showingAboutScreen = false
+    @StateObject private var viewModel = RemindersViewModel()
     
     var body: some View {
         NavigationView {
             List {
-                ForEach(items, id: \.id) { item in
+                ForEach(items, id: \.reminderID) { item in
                     RemindItemRowView(remindItem: item)
+                    
                         .swipeActions {
                             Button(role: .destructive) {
                                 deleteItems(item: item)
@@ -33,15 +41,19 @@ struct RemindersView: View {
                         }
                         .swipeActions(allowsFullSwipe: false) {
                             Button {
+                                viewModel.editItem = item
                                 showingEditScreen.toggle()
                             } label: {
                                 Image(systemName: "gear")
+                                
                             }
                             .tint(.blue)
                         }
-                        .sheet(isPresented: $showingEditScreen) {
-                            RemindItemView(remindItem: item, context: viewContext)
-                        }
+                }
+            }
+            .sheet(isPresented: $showingEditScreen) {
+                if let e = viewModel.editItem {
+                    RemindItemView(remindItem: e, context: viewContext)
                 }
             }
             .navigationTitle("Reminders")
@@ -53,11 +65,7 @@ struct RemindersView: View {
                         Image(systemName: "plus")
                     }
                     .sheet(isPresented: $showingAddScreen) {
-                        RemindItemView(context: {
-                            let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-                            context.parent = viewContext
-                            return context
-                        }())
+                        RemindItemView(context: viewContext)
                     }
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -65,6 +73,23 @@ struct RemindersView: View {
                         showingAboutScreen.toggle()
                     } label: {
                         Image(systemName: "info.circle")
+                    }
+                    .sheet(isPresented: $showingAboutScreen) {
+                        AboutView()
+                    }
+                }
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        showingAboutScreen.toggle()
+                    } label: {
+                        Image(systemName: "arrow.up.arrow.down")
+                    }
+                    .sheet(isPresented: $showingAboutScreen) {
+                        //SortView
+                        //Name A-Z
+                        //Name Z-A
+                        //First Created
+                        //Last Created
                     }
                 }
             }

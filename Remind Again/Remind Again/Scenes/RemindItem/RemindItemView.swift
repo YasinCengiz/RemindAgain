@@ -10,6 +10,7 @@ import CoreData
 
 struct RemindItemView: View {
     
+    @Environment(\.managedObjectContext) var viewContext
     @Environment(\.presentationMode) var presentationMode
     @StateObject var viewModel: RemindItemViewModel
     
@@ -57,10 +58,23 @@ struct RemindItemView: View {
                 }
             }
             .navigationTitle(viewModel.navigationTitle)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        viewContext.rollback()
+                        presentationMode.wrappedValue.dismiss()
+                    } label: {
+                        Text("Cancel")
+                    }
+                }
+            }
         }
         .onAppear {
             viewModel.checkNotificationPermission()
         }
+        .onDisappear(perform: {
+            viewContext.rollback()
+        })
     }
 }
 

@@ -10,7 +10,8 @@ import SwiftUI
 struct AboutView: View {
     
     @Environment(\.presentationMode) var presentationMode
-    
+    @Environment(\.managedObjectContext) var viewContext
+
     var body: some View {
         NavigationView {
             List {

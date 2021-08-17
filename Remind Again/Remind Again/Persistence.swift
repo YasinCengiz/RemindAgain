@@ -16,7 +16,7 @@ struct PersistenceController {
         for index in 0..<7 {
             let newItem = RemindItem(context: viewContext)
             newItem.title = "Item \(index)"
-            newItem.id = UUID()
+            newItem.reminderID = UUID()
             newItem.remindRegistry = NSSet(array: (2..<10).map({ index in
                 let remindItems = RemindRegistry(context: viewContext)
                 remindItems.weekday = Int16(index / 2)

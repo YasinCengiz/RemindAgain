@@ -15,10 +15,12 @@ struct HourMinuteView: View {
     
     @Environment(\.managedObjectContext) var viewContext
     @ObservedObject var registry: RemindRegistry
+    
     let hourMinFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = .current
-        formatter.dateFormat = "HH:mm"
+        formatter.timeStyle = .short
+//        formatter.dateFormat = "HH:mm"
         return formatter
     }()
     
@@ -31,7 +33,7 @@ struct HourMinuteView: View {
                 fatalError("Unresolved error")
             }
         }, label: {
-            HStack(spacing: 5) {
+            HStack(spacing: 1) {
                 Text(hourMinute(from: Int(registry.hour), Int(registry.minute)))
                     .foregroundColor(.primary)
                 if registry.done {

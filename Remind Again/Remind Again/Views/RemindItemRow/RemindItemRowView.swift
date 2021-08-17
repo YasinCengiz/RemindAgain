@@ -13,7 +13,7 @@ struct RemindItemTitleView: View {
     @ObservedObject var remindItem: RemindItem
     
     var body: some View {
-        Text(remindItem.title ?? "Error Getting Title")
+        Text(remindItem.title ?? "")
             .foregroundColor(Color(uiColor: .label))
     }
 }
@@ -34,8 +34,6 @@ struct RemindItemRowView: View {
                 isExpanded.toggle()
             }) {
                 RemindItemTitleView(remindItem: viewModel.remindItem)
-//                Text(viewModel.remindItem.title ?? "Error Getting Title")
-//                    .foregroundColor(Color(uiColor: .label))
             }
             .frame(minHeight: 40)
             if isExpanded {
@@ -43,7 +41,7 @@ struct RemindItemRowView: View {
                     Text(viewModel.weekday(from: Int(weekday)))
                         .font(.caption).bold()
                 }
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))], spacing: 5) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
                     ForEach(viewModel.registries, id: \.registryID) { registry in
                         HourMinuteView(registry: registry)
                     }
