@@ -17,6 +17,8 @@
 		843AC95726AED6AC00D939F0 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843AC95626AED6AC00D939F0 /* Persistence.swift */; };
 		843AC95A26AED6AC00D939F0 /* Remind_Again.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 843AC95826AED6AC00D939F0 /* Remind_Again.xcdatamodeld */; };
 		843B003026C9429600DD7391 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843B002F26C9429600DD7391 /* AboutView.swift */; };
+		84AB8B1726CC0EEE0007C18A /* SortDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AB8B1626CC0EEE0007C18A /* SortDetailView.swift */; };
+		84AB8B2126CD0B0D0007C18A /* AboutPrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84AB8B2026CD0B0D0007C18A /* AboutPrivacyView.swift */; };
 		84B8A8D126C6C01B009DF0B2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 843AC95426AED6AC00D939F0 /* Preview Assets.xcassets */; };
 		84DE14BD26C6CC73004E5D02 /* NotificationCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DE14BC26C6CC72004E5D02 /* NotificationCenterDelegate.swift */; };
 		84DE14BF26C81433004E5D02 /* RemindItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DE14BE26C81432004E5D02 /* RemindItemView.swift */; };
@@ -39,6 +41,8 @@
 		843AC95926AED6AC00D939F0 /* Remind_Again.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Remind_Again.xcdatamodel; sourceTree = "<group>"; };
 		843AC95B26AED6AC00D939F0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		843B002F26C9429600DD7391 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		84AB8B1626CC0EEE0007C18A /* SortDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortDetailView.swift; sourceTree = "<group>"; };
+		84AB8B2026CD0B0D0007C18A /* AboutPrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutPrivacyView.swift; sourceTree = "<group>"; };
 		84DE14BC26C6CC72004E5D02 /* NotificationCenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterDelegate.swift; sourceTree = "<group>"; };
 		84DE14BE26C81432004E5D02 /* RemindItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindItemView.swift; sourceTree = "<group>"; };
 		84DE14C026C8218F004E5D02 /* RepeatedDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatedDay.swift; sourceTree = "<group>"; };
@@ -91,7 +95,8 @@
 			children = (
 				84039F8E26C84C7E004D2E0C /* HourMinuteView.swift */,
 				84356B4F26B5CAC600E67DF6 /* RepeatSelectionView.swift */,
-				843B002F26C9429600DD7391 /* AboutView.swift */,
+				84AB8B1626CC0EEE0007C18A /* SortDetailView.swift */,
+				847B9B5D26CD4A6100E2DC8D /* AboutView */,
 				84039F9426C84F7D004D2E0C /* RemindItemRow */,
 			);
 			path = Views;
@@ -136,6 +141,15 @@
 				843AC95426AED6AC00D939F0 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		847B9B5D26CD4A6100E2DC8D /* AboutView */ = {
+			isa = PBXGroup;
+			children = (
+				843B002F26C9429600DD7391 /* AboutView.swift */,
+				84AB8B2026CD0B0D0007C18A /* AboutPrivacyView.swift */,
+			);
+			path = AboutView;
 			sourceTree = "<group>";
 		};
 		84DE14C726C84754004E5D02 /* Models */ = {
@@ -227,6 +241,8 @@
 				84DE14C926C84A66004E5D02 /* RemindItemRowViewModel.swift in Sources */,
 				843AC95726AED6AC00D939F0 /* Persistence.swift in Sources */,
 				84039F9126C84E18004D2E0C /* RemindItemRowView.swift in Sources */,
+				84AB8B2126CD0B0D0007C18A /* AboutPrivacyView.swift in Sources */,
+				84AB8B1726CC0EEE0007C18A /* SortDetailView.swift in Sources */,
 				843AC95026AED6A900D939F0 /* RemindersView.swift in Sources */,
 				84DE14C126C8218F004E5D02 /* RepeatedDay.swift in Sources */,
 				84DE14C526C84736004E5D02 /* RemindItem+Ext.swift in Sources */,

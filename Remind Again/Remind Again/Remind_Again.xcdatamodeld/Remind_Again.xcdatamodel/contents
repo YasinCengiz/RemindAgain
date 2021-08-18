@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19197" systemVersion="20G95" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="RemindItem" representedClassName="RemindItem" syncable="YES" codeGenerationType="class">
+        <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="reminderID" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="title" attributeType="String" defaultValueString="New Reminder"/>
         <relationship name="remindRegistry" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RemindRegistry"/>
@@ -13,7 +14,7 @@
         <attribute name="weekday" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <elements>
-        <element name="RemindItem" positionX="-62.7713623046875" positionY="-24.20014953613281" width="128" height="74"/>
+        <element name="RemindItem" positionX="-62.7713623046875" positionY="-24.20014953613281" width="128" height="14"/>
         <element name="RemindRegistry" positionX="242.7991943359375" positionY="-19.73724365234375" width="128" height="104"/>
     </elements>
 </model>

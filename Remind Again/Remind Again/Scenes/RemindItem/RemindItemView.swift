@@ -26,6 +26,15 @@ struct RemindItemView: View {
                 Section {
                     ForEach($viewModel.registryHours, id: \.self) { $registry in
                         DatePicker("Remind Again", selection: $registry, displayedComponents: .hourAndMinute)
+                            .swipeActions {
+                                Button(role: .destructive) {
+                                    if let index = viewModel.registryHours.firstIndex(of: registry) {
+                                        viewModel.registryHours.remove(at: index)
+                                    }
+                                } label: {
+                                    Image(systemName: "trash")
+                                }
+                            }
                     }
                     Button("Add Time") {
                         viewModel.registryHours.append(Date())
@@ -50,7 +59,7 @@ struct RemindItemView: View {
                     } label: {
                         Text("Save")
                     }
-                    .disabled(viewModel.title.isEmpty && viewModel.registryDays.isEmpty && viewModel.registryHours.isEmpty)
+                    .disabled(viewModel.title.isEmpty || viewModel.registryDays.isEmpty || viewModel.registryHours.isEmpty)
                 } footer: {
                     if viewModel.notificationDenied {
                         Text("Notifications must be allowed")
@@ -65,6 +74,7 @@ struct RemindItemView: View {
                         presentationMode.wrappedValue.dismiss()
                     } label: {
                         Text("Cancel")
+                            .bold()
                     }
                 }
             }

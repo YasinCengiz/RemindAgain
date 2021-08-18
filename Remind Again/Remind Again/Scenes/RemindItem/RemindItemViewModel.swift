@@ -27,6 +27,7 @@ class RemindItemViewModel: ObservableObject {
             // ADD MODE
             item = RemindItem(context: context)
             item.reminderID = UUID()
+            item.createdAt = Date()
             navigationTitle = "Add Reminder"
         } else {
             // EDIT MODE

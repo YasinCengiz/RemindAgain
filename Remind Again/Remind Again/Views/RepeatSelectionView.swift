@@ -25,7 +25,6 @@ struct RepeatSelectionView: View {
     
     var body: some View {
         List {
-            
             Section{
                 Button(action: {
                     //                    let repeatedTimesInt = viewModel.repeatTimes.map { $0.weekday }

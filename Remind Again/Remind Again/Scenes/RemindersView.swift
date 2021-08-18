@@ -8,6 +8,82 @@
 import SwiftUI
 import CoreData
 
+struct ReminderSearchView: View {
+    
+    @Environment(\.managedObjectContext) var viewContext
+    @StateObject private var viewModel = RemindersViewModel()
+    @State private var showingEditScreen = false
+
+    private var fetchRequest: FetchRequest<RemindItem>
+    private var items: FetchedResults<RemindItem> {
+        fetchRequest.wrappedValue
+    }
+    
+    init(searchText: String, sortOption: SortOption) {
+        var predicate: NSPredicate?
+        if searchText.isEmpty == false {
+            predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchText)
+        }
+        var sortDescriptor: NSSortDescriptor
+        switch sortOption {
+        case .aToZ:
+            sortDescriptor = NSSortDescriptor(key: "title", ascending: true, selector: #selector(NSString.caseInsensitiveCompare(_:)))
+        case .zToA:
+            sortDescriptor = NSSortDescriptor(key: "title", ascending: false, selector: #selector(NSString.caseInsensitiveCompare(_:)))
+        case .firstCreated:
+            sortDescriptor = NSSortDescriptor(keyPath: \RemindItem.createdAt, ascending: true)
+        case .lastCreated:
+            sortDescriptor = NSSortDescriptor(keyPath: \RemindItem.createdAt, ascending: false)
+        }
+        fetchRequest = FetchRequest(entity: RemindItem.entity(),
+                                    sortDescriptors: [sortDescriptor],
+                                    predicate: predicate)
+    }
+    
+    var body: some View {
+        ForEach(items, id: \.reminderID) { item in
+            RemindItemRowView(remindItem: item)
+                .swipeActions {
+                    Button(role: .destructive) {
+                        deleteItems(item: item)
+                    } label: {
+                        Image(systemName: "trash")
+                    }
+                }
+                .swipeActions(allowsFullSwipe: false) {
+                    Button {
+                        viewModel.editItem = item
+                        showingEditScreen.toggle()
+                    } label: {
+                        Image(systemName: "gear")
+                    }
+                    .tint(.blue)
+                }
+        }
+        .sheet(isPresented: $showingEditScreen) {
+            if let e = viewModel.editItem {
+                RemindItemView(remindItem: e, context: viewContext)
+            }
+        }
+    }
+    
+    private func deleteItems(item: RemindItem) {
+        withAnimation {
+            item.removeNotifications()
+            viewContext.delete(item)
+            do {
+                try viewContext.save()
+            } catch {
+                // Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                let nsError = error as NSError
+                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            }
+        }
+    }
+}
+
+
 final class RemindersViewModel: ObservableObject {
     
     var editItem: RemindItem?
@@ -17,44 +93,20 @@ final class RemindersViewModel: ObservableObject {
 struct RemindersView: View {
     
     @Environment(\.managedObjectContext) var viewContext
-    @FetchRequest(entity: RemindItem.entity(),
-                  sortDescriptors: [NSSortDescriptor(keyPath: \RemindItem.title, ascending: true)])
-    private var items: FetchedResults<RemindItem>
     
     @State private var showingAddScreen = false
-    @State private var showingEditScreen = false
     @State private var showingAboutScreen = false
-    @StateObject private var viewModel = RemindersViewModel()
-    
+    @State private var showingSortScreen = false
+    @State private var sortOption: SortOption = .aToZ
+    @State private var searchText = ""
+        
     var body: some View {
         NavigationView {
             List {
-                ForEach(items, id: \.reminderID) { item in
-                    RemindItemRowView(remindItem: item)
-                    
-                        .swipeActions {
-                            Button(role: .destructive) {
-                                deleteItems(item: item)
-                            } label: {
-                                Image(systemName: "trash")
-                            }
-                        }
-                        .swipeActions(allowsFullSwipe: false) {
-                            Button {
-                                viewModel.editItem = item
-                                showingEditScreen.toggle()
-                            } label: {
-                                Image(systemName: "gear")
-                                
-                            }
-                            .tint(.blue)
-                        }
-                }
+                ReminderSearchView(searchText: searchText, sortOption: sortOption)
             }
-            .sheet(isPresented: $showingEditScreen) {
-                if let e = viewModel.editItem {
-                    RemindItemView(remindItem: e, context: viewContext)
-                }
+            .searchable(text: $searchText) {
+                ReminderSearchView(searchText: searchText, sortOption: sortOption)
             }
             .navigationTitle("Reminders")
             .toolbar {
@@ -74,39 +126,20 @@ struct RemindersView: View {
                     } label: {
                         Image(systemName: "info.circle")
                     }
-                    .sheet(isPresented: $showingAboutScreen) {
+                    .fullScreenCover(isPresented: $showingAboutScreen) {
                         AboutView()
                     }
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
-                        showingAboutScreen.toggle()
+                        showingSortScreen.toggle()
                     } label: {
                         Image(systemName: "arrow.up.arrow.down")
                     }
-                    .sheet(isPresented: $showingAboutScreen) {
-                        //SortView
-                        //Name A-Z
-                        //Name Z-A
-                        //First Created
-                        //Last Created
+                    .sheet(isPresented: $showingSortScreen) {
+                        SortDetailView(sortOption: $sortOption)
                     }
                 }
-            }
-        }
-    }
-    
-    private func deleteItems(item: RemindItem) {
-        withAnimation {
-            item.removeNotifications()
-            viewContext.delete(item)
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
             }
         }
     }

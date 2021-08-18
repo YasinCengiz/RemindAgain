@@ -6,9 +6,6 @@
 //
 
 import SwiftUI
-
-
-import SwiftUI
 import CoreData
 
 struct HourMinuteView: View {
@@ -20,7 +17,7 @@ struct HourMinuteView: View {
         let formatter = DateFormatter()
         formatter.locale = .current
         formatter.timeStyle = .short
-//        formatter.dateFormat = "HH:mm"
+        //        formatter.dateFormat = "HH:mm"
         return formatter
     }()
     
@@ -33,17 +30,19 @@ struct HourMinuteView: View {
                 fatalError("Unresolved error")
             }
         }, label: {
-            HStack(spacing: 1) {
+            HStack(spacing: 2) {
+                if registry.done {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundColor(.blue)
+                } else {
+                    Image(systemName: "checkmark.circle")
+                        .foregroundColor(.gray)
+                }
                 Text(hourMinute(from: Int(registry.hour), Int(registry.minute)))
                     .foregroundColor(.primary)
-                if registry.done {
-                    Image(systemName: "checkmark")
-                        .foregroundColor(.blue)
-                }
             }
-            .fixedSize()
         })
-            .buttonStyle(PlainButtonStyle())
+        .buttonStyle(PlainButtonStyle())
     }
     
     func hourMinute(from hour: Int, _ minute: Int) -> String {

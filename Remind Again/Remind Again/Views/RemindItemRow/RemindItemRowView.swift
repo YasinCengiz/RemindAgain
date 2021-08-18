@@ -35,13 +35,13 @@ struct RemindItemRowView: View {
             }) {
                 RemindItemTitleView(remindItem: viewModel.remindItem)
             }
-            .frame(minHeight: 40)
+            .frame(minHeight: 30)
             if isExpanded {
                 if let weekday = viewModel.registries.first?.weekday {
                     Text(viewModel.weekday(from: Int(weekday)))
                         .font(.caption).bold()
                 }
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
+                LazyVGrid(columns: Array<GridItem>(repeating: GridItem(.flexible()), count: 3), alignment: .leading, spacing: 10) {
                     ForEach(viewModel.registries, id: \.registryID) { registry in
                         HourMinuteView(registry: registry)
                     }

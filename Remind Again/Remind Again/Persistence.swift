@@ -16,6 +16,7 @@ struct PersistenceController {
         for index in 0..<7 {
             let newItem = RemindItem(context: viewContext)
             newItem.title = "Item \(index)"
+            newItem.createdAt = Date()
             newItem.reminderID = UUID()
             newItem.remindRegistry = NSSet(array: (2..<10).map({ index in
                 let remindItems = RemindRegistry(context: viewContext)
@@ -42,7 +43,7 @@ struct PersistenceController {
     let container: NSPersistentContainer
 
     init(inMemory: Bool = false) {
-        container = NSPersistentContainer(name: "Remind_Again")
+        container = NSPersistentCloudKitContainer(name: "Remind_Again")
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
