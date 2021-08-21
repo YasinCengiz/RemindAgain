@@ -80,9 +80,9 @@ class RemindItemViewModel: ObservableObject {
             registryHours.forEach { hour in
                 let components = Calendar.current.dateComponents([.hour, .minute], from: hour)
                 let registry = RemindRegistry(context: context)
-                registry.weekday = Int16( day.weekday )
-                registry.hour = Int16( components.hour! )
-                registry.minute = Int16 ( components.minute! )
+                registry.weekday = Int16(day.weekday)
+                registry.hour = Int16(components.hour!)
+                registry.minute = Int16(components.minute!)
                 registry.registryID = UUID()
                 registries.insert(registry)
                 

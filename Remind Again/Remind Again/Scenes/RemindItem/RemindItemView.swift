@@ -64,8 +64,8 @@ struct RemindItemView: View {
                                 .font(.footnote)
                         }
                     }
+                    .buttonStyle(.plain)
                 }
-                .buttonStyle(.plain)
             }
             .navigationTitle(viewModel.navigationTitle)
             .toolbar {
