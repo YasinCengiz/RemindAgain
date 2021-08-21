@@ -10,10 +10,10 @@ import SwiftUI
 class RepeatSelectionViewModel: ObservableObject {
     
     let repeatTimes : [RepeatedDay]
-    // Weekdays as Monday,,,
+    // Weekdays as Monday...
     
     init() {
-        repeatTimes = RepeatedDay.repeatedDays(from: Array(0..<7))
+        repeatTimes = RepeatedDay.repeatedDays(from: Array(0..<8))
     }
 }
 
@@ -57,8 +57,6 @@ struct RepeatSelectionView: View {
                     }
                 })
             }
-            
-            
         }
     }
 }

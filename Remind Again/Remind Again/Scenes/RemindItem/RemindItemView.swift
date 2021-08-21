@@ -64,6 +64,16 @@ struct RemindItemView: View {
                     if viewModel.notificationDenied {
                         Text("Notifications must be allowed")
                     }
+//                    else {
+//                        Button {
+//                            //
+//                        } label: {
+//                            HStack {
+//                                Text("You must open the app frequently to get further notifications.") + Text(Image(systemName: "info.circle"))
+//                            }
+//                            .foregroundColor(Color.init(uiColor: .lightGray))
+//                        }
+//                    }
                 }
             }
             .navigationTitle(viewModel.navigationTitle)
@@ -98,7 +108,8 @@ struct RemindItemView_Previews: PreviewProvider {
     }
     static var previews: some View {
         Group {
-            RemindItemView(context: context) // Add
+            RemindItemView(context: context)
+                .preferredColorScheme(.light) // Add
             RemindItemView(remindItem: item, context: context) // Edit
         }
     }

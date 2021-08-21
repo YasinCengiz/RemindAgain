@@ -20,14 +20,12 @@ class NotificationCenterDelegate: NSObject {
     
 }
 
-
 extension NotificationCenterDelegate: UNUserNotificationCenterDelegate {
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,
            didReceive response: UNNotificationResponse,
            withCompletionHandler completionHandler:
                                 @escaping () -> Void) {
-        
         // Get the meeting ID from the original notification.
         let userInfo = response.notification.request.content.userInfo
         let registryID = userInfo["REGISTRY_ID"] as! String
@@ -49,19 +47,14 @@ extension NotificationCenterDelegate: UNUserNotificationCenterDelegate {
             catch let error as NSError {
                 print("Error getting RegistryID: \(error.localizedDescription), \(error.userInfo)")
             }
-            
 //            print("DEBUG: DONE ACTION \(registryID)")
            break
-             
         // Handle other actions…
-      
         default:
            break
         }
-         
         // Always call the completion handler when done.
         completionHandler()
-        
     }
 
 }

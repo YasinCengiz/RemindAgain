@@ -13,39 +13,21 @@ struct RepeatedDay : Hashable, Equatable {
     let day : String
     let shortenedDay : String
     
-    static func repeatedDays(from weekdays: [Int]) -> [RepeatedDay] {
-        guard weekdays.isEmpty == false else { return [] }
+    static func repeatedDays(from fromWeekdays: [Int]) -> [RepeatedDay] {
+        guard fromWeekdays.isEmpty == false else { return [] }
         
         let calendar = Calendar.current
-        let firstWeekday = calendar.firstWeekday
         
-        let date = Date()
-        var components = calendar.dateComponents([.year, .month, .day], from: date) // Today
-        components.day = firstWeekday
-        let firstDayOfWeek = calendar.date(from: components)! // First day of this week
+        let today = calendar.startOfDay(for: Date())
+        let dayOfWeek = calendar.component((.weekday), from: today)
+        let weekdays = calendar.range(of: .weekday, in: .weekOfYear, for: today)!
+        let days = (weekdays.lowerBound ..< weekdays.upperBound)
+            .filter({ fromWeekdays.contains($0) })
+            .compactMap { calendar.date(byAdding: .day, value: $0 - dayOfWeek, to: today) }
         
-        let days: [(Int, Date)] = weekdays.map { index in
-            var components = calendar.dateComponents([.year, .month, .day, .weekday], from: firstDayOfWeek)
-            components.day = components.day! + index
-            guard let weekday = components.weekday,
-                  let date = calendar.date(from: components)
-            else {
-                fatalError("Error")
-            }
-            let weekdayCalculation = (weekday + index) % 7  // Depending on calender a day might return 8 - turn it to 0
-            return (weekdayCalculation == 0 ? 7 : weekdayCalculation, date)  // turn 0 to 7
-        }
-        
-        let formatter = DateFormatter()
-        formatter.locale = .current
-        formatter.dateFormat = "EEEE"
-        
-        let shortenedFormatter = DateFormatter()
-        shortenedFormatter.locale = .current
-        shortenedFormatter.dateFormat = "E"
-        
-        return days.map({ (weekday , date) in
-            RepeatedDay(weekday: weekday, day: formatter.string(from: date), shortenedDay: shortenedFormatter.string(from: date))
+        return days.map({ (date) in
+            let components = calendar.dateComponents([.weekday], from: date)
+            return RepeatedDay(weekday: components.weekday!, day: DateFormatter.fullDayName.string(from: date), shortenedDay: DateFormatter.shortDayName.string(from: date))
         })
     }
 }

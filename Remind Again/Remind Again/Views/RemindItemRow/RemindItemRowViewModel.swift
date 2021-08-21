@@ -39,11 +39,14 @@ class RemindItemRowViewModel: ObservableObject {
             return ""
         }
     }
-    
 }
 
 private func registriesFrom(remindItem: RemindItem) -> [RemindRegistry] {
-    (remindItem.remindRegistry?.allObjects as? [RemindRegistry] ?? [])
+    let components = Calendar.current.dateComponents([.weekday], from: Date())
+    guard let today = components.weekday else {
+        return []
+    }
+    return (remindItem.remindRegistry?.allObjects as? [RemindRegistry] ?? [])
         .sorted { r1, r2 in
             if r1.weekday == r2.weekday {
                 if r1.hour == r2.hour {
@@ -61,8 +64,14 @@ private func registriesFrom(remindItem: RemindItem) -> [RemindRegistry] {
                     return result
                 }
             } else {
-                let components = Calendar.current.dateComponents([.weekday], from: Date())
-                return (reg.weekday >= (components.weekday ?? 0)) ? [reg] : []
+                let normalizedRegDay = normalizedWeekday(for: Int(reg.weekday), today: today)
+                let normalizedToday = normalizedWeekday(for: today, today: today)
+                return (normalizedRegDay >= normalizedToday) ? [reg] : []
             }
         })
+}
+
+private func normalizedWeekday(for weekday: Int, today: Int) -> Int {
+    let normalized = (7 + weekday - today + 1) % 7
+    return normalized == 0 ? 7 : normalized
 }
