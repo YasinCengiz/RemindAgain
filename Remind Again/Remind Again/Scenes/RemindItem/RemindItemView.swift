@@ -52,13 +52,13 @@ struct RemindItemView: View {
                         }
                     }
                 }
-                Section {
-                    Button {
-                        if let url = URL(string: UIApplication.openSettingsURLString) {
-                            UIApplication.shared.open(url)
-                        }
-                    } label: {
-                        if viewModel.notificationDenied {
+                if viewModel.notificationDenied {
+                    Section {
+                        Button {
+                            if let url = URL(string: UIApplication.openSettingsURLString) {
+                                UIApplication.shared.open(url)
+                            }
+                        } label: {
                             Image(systemName: "info.circle")
                             Text("Notifications must be enabled to recieve alerts.")
                                 .font(.footnote)
