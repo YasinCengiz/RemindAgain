@@ -12,13 +12,15 @@ import UserNotifications
 
 class RemindItemViewModel: ObservableObject {
     
-    var context: NSManagedObjectContext
-    var remindItem: RemindItem
     @Published var registryHours: [Date]
     @Published var registryDays: [RepeatedDay]
     @Published var title: String
     @Published var notificationDenied = false
+    
+    var context: NSManagedObjectContext
+    var remindItem: RemindItem
     let navigationTitle: String
+//    let alertManager: AlertManager
     
     init(remindItem: RemindItem? = nil, context: NSManagedObjectContext) {
         self.context = context
@@ -119,12 +121,9 @@ class RemindItemViewModel: ObservableObject {
         let doneAction = UNNotificationAction(identifier: "DONE_ACTION",
                                               title: "Done",
                                               options: [])
-        let viewAction = UNNotificationAction(identifier: "VIEW_ACTION",
-                                              title: "View",
-                                              options: .foreground)
         // Define the notification type
         let actionCategory = UNNotificationCategory(identifier: "DONE_ACTION_NOTIFIER",
-                                                        actions: [viewAction ,doneAction],
+                                                        actions: [doneAction],
                                                         intentIdentifiers: [],
                                                         hiddenPreviewsBodyPlaceholder: "",
                                                         options: .customDismissAction)

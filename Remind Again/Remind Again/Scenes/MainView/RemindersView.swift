@@ -8,12 +8,19 @@
 import SwiftUI
 import CoreData
 
+enum SortOption: Int {
+    case aToZ
+    case zToA
+    case firstCreated
+    case lastCreated
+}
+
 struct ReminderSearchView: View {
     
     @Environment(\.managedObjectContext) var viewContext
     @StateObject private var viewModel = RemindersViewModel()
     @State private var showingEditScreen = false
-
+    
     private var fetchRequest: FetchRequest<RemindItem>
     private var items: FetchedResults<RemindItem> {
         fetchRequest.wrappedValue
@@ -83,7 +90,6 @@ struct ReminderSearchView: View {
     }
 }
 
-
 final class RemindersViewModel: ObservableObject {
     
     var editItem: RemindItem?
@@ -97,7 +103,7 @@ struct RemindersView: View {
     @State private var showingAddScreen = false
     @State private var showingAboutScreen = false
     @State private var showingSortScreen = false
-    @State private var sortOption: SortOption = .aToZ
+    @AppStorage("USERPREF.SORT_OPTION") var sortOption: SortOption = .lastCreated
     @State private var searchText = ""
         
     var body: some View {
@@ -132,12 +138,31 @@ struct RemindersView: View {
                 }
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
-                        showingSortScreen.toggle()
+                        showingSortScreen = true
                     } label: {
                         Image(systemName: "arrow.up.arrow.down")
                     }
-                    .sheet(isPresented: $showingSortScreen) {
-                        SortDetailView(sortOption: $sortOption)
+                    .confirmationDialog("Sort", isPresented: $showingSortScreen) {
+                        Button {
+                            sortOption = .aToZ
+                        } label: {
+                            Text("From A/Z")
+                        }
+                        Button {
+                            sortOption = .zToA
+                        } label: {
+                            Text("From Z/A")
+                        }
+                        Button {
+                            sortOption = .firstCreated
+                        } label: {
+                            Text("First Created")
+                        }
+                        Button {
+                            sortOption = .lastCreated
+                        } label: {
+                            Text("Last Created")
+                        }
                     }
                 }
             }

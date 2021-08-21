@@ -54,30 +54,30 @@ struct RemindItemView: View {
                 }
                 Section {
                     Button {
+                        if let url = URL(string: UIApplication.openSettingsURLString) {
+                            UIApplication.shared.open(url)
+                        }
+                    } label: {
+                        if viewModel.notificationDenied {
+                            Image(systemName: "info.circle")
+                            Text("Notifications must be enabled to recieve alerts.")
+                                .font(.footnote)
+                        }
+                    }
+                }
+                .buttonStyle(.plain)
+            }
+            .navigationTitle(viewModel.navigationTitle)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
                         viewModel.save()
                         presentationMode.wrappedValue.dismiss()
                     } label: {
                         Text("Save")
                     }
                     .disabled(viewModel.title.isEmpty || viewModel.registryDays.isEmpty || viewModel.registryHours.isEmpty)
-                } footer: {
-                    if viewModel.notificationDenied {
-                        Text("Notifications must be allowed")
-                    }
-//                    else {
-//                        Button {
-//                            //
-//                        } label: {
-//                            HStack {
-//                                Text("You must open the app frequently to get further notifications.") + Text(Image(systemName: "info.circle"))
-//                            }
-//                            .foregroundColor(Color.init(uiColor: .lightGray))
-//                        }
-//                    }
                 }
-            }
-            .navigationTitle(viewModel.navigationTitle)
-            .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
                         viewContext.rollback()
