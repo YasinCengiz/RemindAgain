@@ -150,21 +150,23 @@ class RemindItemViewModel: ObservableObject {
     
     func checkNotificationPermission() {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
-            switch settings.authorizationStatus {
-            case .authorized:
-                self.notificationDenied = false
-            case .denied:
-                self.notificationDenied = true
-            case .notDetermined:
-                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
-                    self.notificationDenied = !success
-                    if success {
-                    } else if let error = error {
-                        print(error.localizedDescription)
+            DispatchQueue.main.async {
+                switch settings.authorizationStatus {
+                case .authorized:
+                    self.notificationDenied = false
+                case .denied:
+                    self.notificationDenied = true
+                case .notDetermined:
+                    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+                        self.notificationDenied = !success
+                        if success {
+                        } else if let error = error {
+                            print(error.localizedDescription)
+                        }
                     }
+                default:
+                    break
                 }
-            default:
-                break
             }
         }
     }
