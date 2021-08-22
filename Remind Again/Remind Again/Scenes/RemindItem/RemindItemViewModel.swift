@@ -20,7 +20,6 @@ class RemindItemViewModel: ObservableObject {
     var context: NSManagedObjectContext
     var remindItem: RemindItem
     let navigationTitle: String
-//    let alertManager: AlertManager
     
     init(remindItem: RemindItem? = nil, context: NSManagedObjectContext) {
         self.context = context
@@ -47,13 +46,10 @@ class RemindItemViewModel: ObservableObject {
                 }
                 return registries
                     .filter({ registry in
-                        return registry.weekday == weekday
+                        registry.weekday == weekday
                     })
-                    .map({ registry -> Date in
-                        var components = Calendar.current.dateComponents([.hour, .minute], from: Date())
-                        components.hour = Int(registry.hour)
-                        components.minute = Int(registry.minute)
-                        return Calendar.current.date(from: components)!
+                    .compactMap({ registry in
+                        registry.time
                     })
             }()
         )
@@ -78,17 +74,14 @@ class RemindItemViewModel: ObservableObject {
         var registries: Set<RemindRegistry> = []
         registryDays.forEach { day in
             registryHours.forEach { hour in
-                let components = Calendar.current.dateComponents([.hour, .minute], from: hour)
                 let registry = RemindRegistry(context: context)
                 registry.weekday = Int16(day.weekday)
-                registry.hour = Int16(components.hour!)
-                registry.minute = Int16(components.minute!)
+                registry.time = hour
                 registry.registryID = UUID()
                 registries.insert(registry)
                 
                 scheduleNotification(weekday: day.weekday,
-                                     hour: components.hour!,
-                                     minute: components.minute!,
+                                     time: hour,
                                      id: registry.registryID!.uuidString)
             }
         }
@@ -107,11 +100,13 @@ class RemindItemViewModel: ObservableObject {
         })
     }
     
-    func scheduleNotification(weekday: Int, hour: Int, minute: Int, id: String) {
+    func scheduleNotification(weekday: Int, time: Date, id: String) {
+        let components = Calendar.current.dateComponents([.hour, .minute], from: time)
+        
         var dateComponents = DateComponents()
         dateComponents.weekday = weekday
-        dateComponents.hour = hour
-        dateComponents.minute = minute
+        dateComponents.hour = components.hour
+        dateComponents.minute = components.minute
         
         let content = UNMutableNotificationContent()
         content.body = title

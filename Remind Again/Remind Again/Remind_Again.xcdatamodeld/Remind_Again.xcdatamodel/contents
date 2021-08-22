@@ -8,13 +8,12 @@
     </entity>
     <entity name="RemindRegistry" representedClassName="RemindRegistry" syncable="YES" codeGenerationType="class">
         <attribute name="done" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
-        <attribute name="hour" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="minute" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="registryID" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="time" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="weekday" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
     <elements>
         <element name="RemindItem" positionX="-62.7713623046875" positionY="-24.20014953613281" width="128" height="14"/>
-        <element name="RemindRegistry" positionX="242.7991943359375" positionY="-19.73724365234375" width="128" height="104"/>
+        <element name="RemindRegistry" positionX="242.7991943359375" positionY="-19.73724365234375" width="128" height="89"/>
     </elements>
 </model>

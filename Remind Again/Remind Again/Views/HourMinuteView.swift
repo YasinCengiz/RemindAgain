@@ -17,7 +17,6 @@ struct HourMinuteView: View {
         let formatter = DateFormatter()
         formatter.locale = .current
         formatter.timeStyle = .short
-        //        formatter.dateFormat = "HH:mm"
         return formatter
     }()
     
@@ -38,23 +37,17 @@ struct HourMinuteView: View {
                     Image(systemName: "checkmark.circle")
                         .foregroundColor(.gray)
                 }
-                Text(hourMinute(from: Int(registry.hour), Int(registry.minute)))
-                    .foregroundColor(.primary)
+                if let time = registry.time {
+                    Text(hourMinute(from: time))
+                        .foregroundColor(.primary)
+                }
             }
         })
         .buttonStyle(PlainButtonStyle())
     }
     
-    func hourMinute(from hour: Int, _ minute: Int) -> String {
-        var components = DateComponents()
-        components.hour = hour
-        components.minute = minute
-        
-        if let hoursMinutes = Calendar.current.date(from: components) {
-            return hourMinFormatter.string(from: hoursMinutes)
-        } else {
-            return ""
-        }
+    func hourMinute(from time: Date) -> String {
+        return hourMinFormatter.string(from: time)
     }
 }
 

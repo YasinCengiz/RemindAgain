@@ -27,7 +27,7 @@ class RemindItemRowViewModel: ObservableObject {
         _registries = Published(wrappedValue: registriesFrom(remindItem: remindItem))
         
         observation = remindItem.observe(\.remindRegistry) { [unowned self] item, change in
-//            print("Item: \(item.title) change: \(change)")
+            self.registries = []
             self.registries = registriesFrom(remindItem: item)
         }
     }
@@ -49,10 +49,7 @@ private func registriesFrom(remindItem: RemindItem) -> [RemindRegistry] {
     return (remindItem.remindRegistry?.allObjects as? [RemindRegistry] ?? [])
         .sorted { r1, r2 in
             if r1.weekday == r2.weekday {
-                if r1.hour == r2.hour {
-                    return r1.minute < r2.minute
-                }
-                return r1.hour < r2.hour
+                return r1.time! < r2.time!
             }
             return r1.weekday < r2.weekday
         }

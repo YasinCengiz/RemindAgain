@@ -21,8 +21,7 @@ struct PersistenceController {
             newItem.remindRegistry = NSSet(array: (2..<10).map({ index in
                 let remindItems = RemindRegistry(context: viewContext)
                 remindItems.weekday = Int16(index / 2)
-                remindItems.hour = Int16(index * 2)
-                remindItems.minute = Int16(index * 5)
+                remindItems.time = Date().advanced(by: Double(index * 10 * 60))
                 remindItems.done = false
                 remindItems.registryID = UUID()
                 return remindItems

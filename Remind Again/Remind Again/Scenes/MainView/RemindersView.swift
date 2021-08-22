@@ -146,12 +146,12 @@ struct RemindersView: View {
                         Button {
                             sortOption = .aToZ
                         } label: {
-                            Text("From A/Z")
+                            Text("A-to-Z")
                         }
                         Button {
                             sortOption = .zToA
                         } label: {
-                            Text("From Z/A")
+                            Text("Z-to-A")
                         }
                         Button {
                             sortOption = .firstCreated
