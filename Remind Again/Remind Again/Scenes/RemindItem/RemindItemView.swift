@@ -89,9 +89,9 @@ struct RemindItemView: View {
                 }
             }
         }
-        .onAppear {
-            viewModel.checkNotificationPermission()
-        }
+//        .onAppear {
+//            viewModel.checkNotificationPermission()
+//        }
         .onDisappear(perform: {
             viewContext.rollback()
         })

@@ -14,7 +14,8 @@ public struct Alert: Hashable {
     // MARK: - properties
     
     public let title: String
-    public let message: String
+//    public let message: String
+    public let registryID: UUID
     public let dateComponents: DateComponents
 
     public let sound: String?
@@ -23,14 +24,16 @@ public struct Alert: Hashable {
     // MARK: - Init & Dealloc
     
     public init(title: String,
-                message: String,
+                
+                registryID: UUID,
                 dateComponents: DateComponents,
                 timezone: TimeZone? = nil,
                 sound: String? = nil,
                 repeats: Bool = false) {
 
         self.title = title
-        self.message = message
+        
+        self.registryID = registryID
         self.dateComponents = dateComponents
         self.sound = sound
         self.repeats = repeats
@@ -48,6 +51,6 @@ extension Alert: CustomDebugStringConvertible {
             .compactMap { $0.debugDescription }
             .joined(separator: " - ")
         
-        return "[\(prefix)] \(title): \(message) - \(sound ?? "nil")"
+        return "[\(prefix)] \(title): \(sound ?? "nil")"
     }
 }

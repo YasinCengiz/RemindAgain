@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import CoreData
 import UserNotifications
+import RxSwift
 
 class RemindItemViewModel: ObservableObject {
     
@@ -16,6 +17,9 @@ class RemindItemViewModel: ObservableObject {
     @Published var registryDays: [RepeatedDay]
     @Published var title: String
     @Published var notificationDenied = false
+    
+    private var disposeBag = DisposeBag()
+    private let alertManager = AlertManager(id: "REMINDER_ALERTS")
     
     var context: NSManagedObjectContext
     var remindItem: RemindItem
@@ -80,11 +84,18 @@ class RemindItemViewModel: ObservableObject {
                 registry.registryID = UUID()
                 registries.insert(registry)
                 
-                scheduleNotification(weekday: day.weekday,
-                                     time: hour,
-                                     id: registry.registryID!.uuidString)
+//                scheduleNotification(weekday: day.weekday,
+//                                     time: hour,
+//                                     id: registry.registryID!.uuidString)
             }
         }
+        alertManager.scheduleAlerts(alerts: Set<Alert>(registries.map({ reg -> Alert in
+            var components = Calendar.current.dateComponents([.hour, .minute], from: reg.time!)
+            components.weekday = Int(reg.weekday)
+            return Alert(title: title, registryID: reg.registryID!, dateComponents: components, repeats: true)
+        })))
+            .subscribe(onSuccess: {}, onFailure: { _ in }, onDisposed: {})
+            .disposed(by: disposeBag)
         remindItem.remindRegistry = registries as NSSet
         do {
             try context.save()
@@ -100,69 +111,69 @@ class RemindItemViewModel: ObservableObject {
         })
     }
     
-    func scheduleNotification(weekday: Int, time: Date, id: String) {
-        let components = Calendar.current.dateComponents([.hour, .minute], from: time)
-        
-        var dateComponents = DateComponents()
-        dateComponents.weekday = weekday
-        dateComponents.hour = components.hour
-        dateComponents.minute = components.minute
-        
-        let content = UNMutableNotificationContent()
-        content.body = title
-        content.sound = UNNotificationSound.default
-        
-        // Define the custom actions.
-        let doneAction = UNNotificationAction(identifier: "DONE_ACTION",
-                                              title: "Done",
-                                              options: [])
-        // Define the notification type
-        let actionCategory = UNNotificationCategory(identifier: "DONE_ACTION_NOTIFIER",
-                                                        actions: [doneAction],
-                                                        intentIdentifiers: [],
-                                                        hiddenPreviewsBodyPlaceholder: "",
-                                                        options: .customDismissAction)
-        content.userInfo = ["REGISTRY_ID": id]
-        content.categoryIdentifier = "DONE_ACTION_NOTIFIER"
-        
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents,
-                                                    repeats: true)
-        // Create the request
-        let request = UNNotificationRequest(identifier: id,
-                                            content: content,
-                                            trigger: trigger)
-        // Schedule the request with the system.
-        let notificationCenter = UNUserNotificationCenter.current()
-        // Register the notification type.
-        notificationCenter.setNotificationCategories([actionCategory])
-        
-        notificationCenter.add(request) { error in
-            if error != nil {
-                print(error?.localizedDescription ?? "Error at Notification Request")
-            }
-        }
-    }
-    
-    func checkNotificationPermission() {
-        UNUserNotificationCenter.current().getNotificationSettings { settings in
-            DispatchQueue.main.async {
-                switch settings.authorizationStatus {
-                case .authorized:
-                    self.notificationDenied = false
-                case .denied:
-                    self.notificationDenied = true
-                case .notDetermined:
-                    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
-                        self.notificationDenied = !success
-                        if success {
-                        } else if let error = error {
-                            print(error.localizedDescription)
-                        }
-                    }
-                default:
-                    break
-                }
-            }
-        }
-    }
+//    func scheduleNotification(weekday: Int, time: Date, id: String) {
+//        let components = Calendar.current.dateComponents([.hour, .minute], from: time)
+//
+//        var dateComponents = DateComponents()
+//        dateComponents.weekday = weekday
+//        dateComponents.hour = components.hour
+//        dateComponents.minute = components.minute
+//
+//        let content = UNMutableNotificationContent()
+//        content.body = title
+//        content.sound = UNNotificationSound.default
+//
+//        // Define the custom actions.
+//        let doneAction = UNNotificationAction(identifier: "DONE_ACTION",
+//                                              title: "Done",
+//                                              options: .foreground)
+//        // Define the notification type
+//        let actionCategory = UNNotificationCategory(identifier: "DONE_ACTION_NOTIFIER",
+//                                                        actions: [doneAction],
+//                                                        intentIdentifiers: [],
+//                                                        hiddenPreviewsBodyPlaceholder: "",
+//                                                        options: .customDismissAction)
+//        content.userInfo = ["REGISTRY_ID": id]
+//        content.categoryIdentifier = "DONE_ACTION_NOTIFIER"
+//
+//        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents,
+//                                                    repeats: true)
+//        // Create the request
+//        let request = UNNotificationRequest(identifier: id,
+//                                            content: content,
+//                                            trigger: trigger)
+//        // Schedule the request with the system.
+//        let notificationCenter = UNUserNotificationCenter.current()
+//        // Register the notification type.
+//        notificationCenter.setNotificationCategories([actionCategory])
+//
+//        notificationCenter.add(request) { error in
+//            if error != nil {
+//                print(error?.localizedDescription ?? "Error at Notification Request")
+//            }
+//        }
+//    }
+//
+//    func checkNotificationPermission() {
+//        UNUserNotificationCenter.current().getNotificationSettings { settings in
+//            DispatchQueue.main.async {
+//                switch settings.authorizationStatus {
+//                case .authorized:
+//                    self.notificationDenied = false
+//                case .denied:
+//                    self.notificationDenied = true
+//                case .notDetermined:
+//                    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+//                        self.notificationDenied = !success
+//                        if success {
+//                        } else if let error = error {
+//                            print(error.localizedDescription)
+//                        }
+//                    }
+//                default:
+//                    break
+//                }
+//            }
+//        }
+//    }
 }

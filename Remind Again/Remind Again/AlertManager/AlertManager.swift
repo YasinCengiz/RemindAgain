@@ -35,6 +35,17 @@ public final class AlertManager {
 
     public init(id: String) {
         self.id = id
+        // Define the custom actions
+        let doneAction = UNNotificationAction(identifier: "DONE_ACTION",
+                                              title: "Done",
+                                              options: [])
+        // Define the notification type
+        let actionCategory = UNNotificationCategory(identifier: "DONE_ACTION_NOTIFIER",
+                                                    actions: [doneAction],
+                                                    intentIdentifiers: [],
+                                                    hiddenPreviewsBodyPlaceholder: "",
+                                                    options: .customDismissAction)
+        alertScheduler.setNotificationCategories([actionCategory])
     }
     
     // MARK: - Public methods
@@ -174,8 +185,10 @@ private extension UNNotificationRequest {
     var alert: Alert {
         let calendarTrigger = trigger as? UNCalendarNotificationTrigger
         let sound = content.userInfo["sound"] as? String
+        let registryID = UUID(uuidString: (content.userInfo["REGISTRY_ID"] as? String) ?? "") ?? UUID()
         return .init(title: content.title,
-                     message: content.body,
+                     
+                     registryID: registryID,
                      dateComponents: calendarTrigger?.dateComponents ?? .init(),
                      sound: sound)
     }
@@ -187,15 +200,18 @@ private extension UNNotificationRequest {
 
         let content = UNMutableNotificationContent()
         content.title = alert.title
-        content.body = alert.message
+        
         alert.sound.flatMap { content.userInfo = ["sound": $0] }
         content.sound = alert.sound
             .flatMap(UNNotificationSoundName.init(_:))
             .flatMap(UNNotificationSound.init(named:))
+        
+        content.userInfo = ["REGISTRY_ID": alert.registryID.uuidString]
+        content.categoryIdentifier = "DONE_ACTION_NOTIFIER"
 
         let trigger = UNCalendarNotificationTrigger(dateMatching: alert.dateComponents,
                                                     repeats: alert.repeats)
-
+        
         self.init(identifier: identifier,
                   content: content,
                   trigger: trigger)

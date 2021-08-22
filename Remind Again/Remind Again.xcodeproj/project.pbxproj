@@ -12,7 +12,6 @@
 		8405A2C426D120D000F84016 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8405A2C226D120D000F84016 /* AlertManager.swift */; };
 		8405A2C526D120D000F84016 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8405A2C326D120D000F84016 /* Alert.swift */; };
 		8405A2C926D1229400F84016 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8405A2C826D1229400F84016 /* RxSwift */; };
-		8434808326C3125B00F62B66 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 8434808226C3125B00F62B66 /* OrderedCollections */; };
 		84356B5026B5CAC600E67DF6 /* RepeatSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84356B4F26B5CAC600E67DF6 /* RepeatSelectionView.swift */; };
 		843AC94E26AED6A900D939F0 /* RemindAgainApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843AC94D26AED6A900D939F0 /* RemindAgainApp.swift */; };
 		843AC95026AED6A900D939F0 /* RemindersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843AC94F26AED6A900D939F0 /* RemindersView.swift */; };
@@ -62,7 +61,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8405A2C926D1229400F84016 /* RxSwift in Frameworks */,
-				8434808326C3125B00F62B66 /* OrderedCollections in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,7 +208,6 @@
 			);
 			name = "Remind Again";
 			packageProductDependencies = (
-				8434808226C3125B00F62B66 /* OrderedCollections */,
 				8405A2C826D1229400F84016 /* RxSwift */,
 			);
 			productName = "Remind Again";
@@ -241,7 +238,6 @@
 			);
 			mainGroup = 843AC94126AED6A900D939F0;
 			packageReferences = (
-				8434808126C3125B00F62B66 /* XCRemoteSwiftPackageReference "swift-collections" */,
 				8405A2C726D1229400F84016 /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = 843AC94B26AED6A900D939F0 /* Products */;
@@ -486,14 +482,6 @@
 				minimumVersion = 6.0.0;
 			};
 		};
-		8434808126C3125B00F62B66 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-collections.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.5;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -501,11 +489,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8405A2C726D1229400F84016 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
-		};
-		8434808226C3125B00F62B66 /* OrderedCollections */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8434808126C3125B00F62B66 /* XCRemoteSwiftPackageReference "swift-collections" */;
-			productName = OrderedCollections;
 		};
 /* End XCSwiftPackageProductDependency section */
 
