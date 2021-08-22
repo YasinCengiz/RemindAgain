@@ -19,7 +19,7 @@ struct AboutView: View {
             List {
                 Section {
                     HStack {
-                        Image(systemName: "gift")
+                        Image(systemName: "gift.fill")
                             .font(.system(size: 25))
                             .frame(width: 40, height: 40)
                             .foregroundColor(.white)
@@ -72,6 +72,22 @@ struct AboutView: View {
                 }
                 .foregroundColor(Color(uiColor: .label))
                 Section{
+                    HStack {
+                        Image(systemName: "envelope.fill")
+                            .frame(width: 29, height: 29)
+                            .foregroundColor(.white)
+                            .background(Color.blue)
+                            .cornerRadius(6)
+                        Button {
+//
+                        } label: {
+                            Text("Contact")
+                        }
+                        .foregroundColor(Color(uiColor: .label))
+                        .sheet(isPresented: $showingPolicyScreen) {
+                            AboutPrivacyView()
+                        }
+                    }
                     HStack {
                         Image(systemName: "hand.raised.fill")
                             .frame(width: 29, height: 29)

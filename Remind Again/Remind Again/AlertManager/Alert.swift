@@ -14,7 +14,6 @@ public struct Alert: Hashable {
     // MARK: - properties
     
     public let title: String
-//    public let message: String
     public let registryID: UUID
     public let dateComponents: DateComponents
 
