@@ -187,10 +187,10 @@ private extension UNNotificationRequest {
         let sound = content.userInfo["sound"] as? String
         let registryID = UUID(uuidString: (content.userInfo["REGISTRY_ID"] as? String) ?? "") ?? UUID()
         return .init(title: content.title,
-                     
                      registryID: registryID,
                      dateComponents: calendarTrigger?.dateComponents ?? .init(),
-                     sound: sound)
+                     sound: sound,
+                     repeats: true)
     }
 
     convenience init(managerId: String, alert: Alert) {
@@ -201,7 +201,9 @@ private extension UNNotificationRequest {
         let content = UNMutableNotificationContent()
         content.title = alert.title
         
-        alert.sound.flatMap { content.userInfo = ["sound": $0] }
+        if let sound = alert.sound {
+            content.userInfo["sound"] = sound
+        }
         content.sound = alert.sound
             .flatMap(UNNotificationSoundName.init(_:))
             .flatMap(UNNotificationSound.init(named:))

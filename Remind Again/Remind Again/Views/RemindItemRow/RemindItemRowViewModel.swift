@@ -67,7 +67,7 @@ private func registriesFrom(remindItem: RemindItem) -> [RemindRegistry] {
             }
         })
 }
-
+// Set Today as 1
 private func normalizedWeekday(for weekday: Int, today: Int) -> Int {
     let normalized = (7 + weekday - today + 1) % 7
     return normalized == 0 ? 7 : normalized

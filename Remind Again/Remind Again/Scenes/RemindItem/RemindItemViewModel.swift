@@ -8,7 +8,6 @@
 import Foundation
 import SwiftUI
 import CoreData
-import RxSwift
 
 class RemindItemViewModel: ObservableObject {
     
@@ -16,9 +15,6 @@ class RemindItemViewModel: ObservableObject {
     @Published var registryDays: [RepeatedDay]
     @Published var title: String
     @Published var notificationDenied = false
-    
-    private var disposeBag = DisposeBag()
-    private let alertManager = AlertManager(id: "REMINDER_ALERTS")
     
     var context: NSManagedObjectContext
     var remindItem: RemindItem
@@ -84,13 +80,6 @@ class RemindItemViewModel: ObservableObject {
                 registries.insert(registry)
             }
         }
-        alertManager.scheduleAlerts(alerts: Set<Alert>(registries.map({ reg -> Alert in
-            var components = Calendar.current.dateComponents([.hour, .minute], from: reg.time!)
-            components.weekday = Int(reg.weekday)
-            return Alert(title: title, registryID: reg.registryID!, dateComponents: components, sound: "sound", repeats: true)
-        })))
-            .subscribe(onSuccess: {}, onFailure: { _ in }, onDisposed: {})
-            .disposed(by: disposeBag)
         remindItem.remindRegistry = registries as NSSet
         do {
             try context.save()

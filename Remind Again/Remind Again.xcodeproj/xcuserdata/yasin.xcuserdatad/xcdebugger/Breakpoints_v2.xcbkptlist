@@ -62,8 +62,8 @@
             filePath = "Remind Again/Scenes/RemindItem/RemindItemViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
             landmarkName = "init(remindItem:context:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -71,31 +71,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3F44B17E-E3AF-43FF-AFB8-466253DE7E67"
-            shouldBeEnabled = "Yes"
+            uuid = "8A3893C4-CD72-46AB-A7FF-CE65B773C518"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Remind Again/AlertManager/AlertManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
-            landmarkName = "scheduleNotifications(context:alerts:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "258B498F-8291-4F4B-B0BD-02F97E9BCA45"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Remind Again/AlertManager/AlertManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
+            startingColumnNumber = "31"
+            endingColumnNumber = "39"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
             landmarkName = "scheduleNotifications(context:alerts:)"
             landmarkType = "7">
          </BreakpointContent>

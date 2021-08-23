@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public struct Alert: Hashable {
 
     // MARK: - properties
@@ -16,22 +15,18 @@ public struct Alert: Hashable {
     public let title: String
     public let registryID: UUID
     public let dateComponents: DateComponents
-
     public let sound: String?
     public let repeats: Bool
     
     // MARK: - Init & Dealloc
     
     public init(title: String,
-                
                 registryID: UUID,
                 dateComponents: DateComponents,
                 timezone: TimeZone? = nil,
                 sound: String? = nil,
                 repeats: Bool = false) {
-
         self.title = title
-        
         self.registryID = registryID
         self.dateComponents = dateComponents
         self.sound = sound

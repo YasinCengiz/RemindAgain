@@ -11,7 +11,15 @@ import SwiftUI
 struct RemindAgainApp: App {
     let persistenceController = PersistenceController.shared
     let notificationCenterDelegate = NotificationCenterDelegate.shared
+    let dataStackObserver: DataStackObserver
+    let notificationScheduler: NotificationScheduler
 
+    init() {
+        let observer = DataStackObserver()
+        self.dataStackObserver = observer
+        self.notificationScheduler = NotificationScheduler(remindersPublisher: observer.reminders)
+    }
+    
     var body: some Scene {
         WindowGroup {
             RemindersView()

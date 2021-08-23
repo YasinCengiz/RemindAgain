@@ -27,7 +27,6 @@ struct RepeatSelectionView: View {
         List {
             Section{
                 Button(action: {
-                    //                    let repeatedTimesInt = viewModel.repeatTimes.map { $0.weekday }
                     if repeatTime == viewModel.repeatTimes {
                         repeatTime = []
                     } else {
