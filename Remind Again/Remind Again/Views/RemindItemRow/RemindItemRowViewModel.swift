@@ -51,7 +51,7 @@ private func registriesFrom(remindItem: RemindItem) -> [RemindRegistry] {
             if r1.weekday == r2.weekday {
                 return r1.time! < r2.time!
             }
-            return r1.weekday < r2.weekday
+            return normalizedWeekday(for: Int(r1.weekday), today: today) < normalizedWeekday(for: Int(r2.weekday), today: today)
         }
         .reduce([RemindRegistry](), { result, reg in
             if let first = result.first {
@@ -61,6 +61,7 @@ private func registriesFrom(remindItem: RemindItem) -> [RemindRegistry] {
                     return result
                 }
             } else {
+//                return reg.weekday >= today ? [reg] : []
                 let normalizedRegDay = normalizedWeekday(for: Int(reg.weekday), today: today)
                 let normalizedToday = normalizedWeekday(for: today, today: today)
                 return (normalizedRegDay >= normalizedToday) ? [reg] : []

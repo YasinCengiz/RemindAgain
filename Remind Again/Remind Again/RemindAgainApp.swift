@@ -13,11 +13,14 @@ struct RemindAgainApp: App {
     let notificationCenterDelegate = NotificationCenterDelegate.shared
     let dataStackObserver: DataStackObserver
     let notificationScheduler: NotificationScheduler
+    let doneStatusUpdater: DoneStatusUpdater
 
     init() {
         let observer = DataStackObserver()
         self.dataStackObserver = observer
         self.notificationScheduler = NotificationScheduler(remindersPublisher: observer.reminders)
+        self.doneStatusUpdater = DoneStatusUpdater(context: persistenceController.container.viewContext,
+                                                   registriesPublisher: observer.registries)
     }
     
     var body: some Scene {

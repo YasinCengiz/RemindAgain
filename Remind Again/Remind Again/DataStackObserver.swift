@@ -40,8 +40,8 @@ class DataStackObserver {
                 return (item.remindRegistry?.allObjects as? [RemindRegistry]) ?? []
             }
             .flatMap { $0 }
-            remindersSubject.send(items)
             registriesSubject.send(registries)
+            remindersSubject.send(items)
         } catch {
             print(error.localizedDescription)
         }
