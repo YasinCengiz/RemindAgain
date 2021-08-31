@@ -6,6 +6,49 @@
 //
 
 import SwiftUI
+import MessageUI
+
+struct MailView: UIViewControllerRepresentable {
+    
+    @Binding var isShowing: Bool
+    
+    class Coordinator: NSObject, MFMailComposeViewControllerDelegate {
+        
+        @Binding var isShowing: Bool
+        
+        init(isShowing: Binding<Bool>) {
+            _isShowing = isShowing
+        }
+        
+        func mailComposeController(_ controller: MFMailComposeViewController,
+                                   didFinishWith result: MFMailComposeResult,
+                                   error: Error?) {
+            isShowing = false
+        }
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(isShowing: $isShowing)
+    }
+    
+    func makeUIViewController(context: UIViewControllerRepresentableContext<MailView>) -> MFMailComposeViewController {
+        let vc = MFMailComposeViewController()
+        vc.mailComposeDelegate = context.coordinator
+        vc.setToRecipients(["yasin.cengiz@icloud.com"])
+        vc.setSubject("Feedback for Remind Again")
+        vc.setMessageBody("""
+        Remind Again \(BuildEnvironment.current.version) (\(BuildEnvironment.current.build))
+        \(BuildEnvironment.current.systemVersion)
+        """, isHTML: false)
+        
+        return vc
+    }
+    
+    func updateUIViewController(_ uiViewController: MFMailComposeViewController,
+                                context: UIViewControllerRepresentableContext<MailView>) {
+        
+    }
+}
 
 struct AboutView: View {
     
@@ -13,6 +56,7 @@ struct AboutView: View {
     @Environment(\.managedObjectContext) var viewContext
     
     @State private var showingPolicyScreen = false
+    @State var isShowingMailView = false
     
     var body: some View {
         NavigationView {
@@ -78,14 +122,22 @@ struct AboutView: View {
                             .foregroundColor(.white)
                             .background(Color.blue)
                             .cornerRadius(6)
-                        Button {
-//
-                        } label: {
-                            Text("Contact")
+                        VStack(alignment: .leading) {
+                            Button {
+                                self.isShowingMailView.toggle()
+                            } label: {
+                                Text("Contact")
+                            }
+                            if MFMailComposeViewController.canSendMail() == false {
+                                Text("You cannot send email before setting up an account in Mail app.")
+                                    .font(.footnote)
+                                    .foregroundColor(Color.gray)
+                            }
                         }
                         .foregroundColor(Color(uiColor: .label))
-                        .sheet(isPresented: $showingPolicyScreen) {
-                            AboutPrivacyView()
+                        .disabled(MFMailComposeViewController.canSendMail() == false)
+                        .sheet(isPresented: $isShowingMailView) {
+                            MailView(isShowing: self.$isShowingMailView)
                         }
                     }
                     HStack {

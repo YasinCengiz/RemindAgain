@@ -30,28 +30,9 @@ class DoneStatusUpdater {
         }
         
         registries
-//            .sorted { r1, r2 in
-//                if r1.weekday == r2.weekday {
-//                    return r1.time! < r2.time!
-//                }
-//                return r1.weekday < r2.weekday
-//            }
             .filter({ reg in
                 return Int(reg.weekday) != today
             })
-//            .reduce([RemindRegistry](), { result, reg in ///
-//                if let first = result.first {
-//                    if first.weekday == reg.weekday {
-//                        return result + [reg]
-//                    } else {
-//                        return result
-//                    }
-//                } else {
-//                    let normalizedRegDay = normalizedWeekday(for: Int(reg.weekday), today: today)
-//                    let normalizedToday = normalizedWeekday(for: today, today: today)
-//                    return (normalizedRegDay >= normalizedToday) ? [reg] : []
-//                }
-//            })
             .forEach { reg in
                 reg.done = false
             }
@@ -62,7 +43,7 @@ class DoneStatusUpdater {
             try? context.save()
         }
     }
-
+    
 }
 
 // Set Today as 1
