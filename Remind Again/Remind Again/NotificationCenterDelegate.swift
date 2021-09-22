@@ -41,7 +41,7 @@ extension NotificationCenterDelegate: UNUserNotificationCenterDelegate {
                     return
                 }
 //                print("DEBUG: REGISTRY: \(registry)")
-                registry.done.toggle()
+                registry.done = true
                 try context.save()
             }
             catch let error as NSError {
