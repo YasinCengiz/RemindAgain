@@ -1,0 +1,54 @@
+/* 
+  Localizable.strings
+  Remind Again
+
+  Created by Yasin on 17.11.2021.
+  
+*/
+
+/// Main Screen
+
+"Reminders" = "Hatırlatıcılar";
+
+/// Buttons
+
+"Cancel" = "İptal";
+"Save" = "Kaydet";
+"Done" = "Tamamlandı";
+
+/// Sort
+
+"A-to-Z" = "A'dan Z'ye";
+"Z-to-A" = "Z'den A'ya";
+"First Created" = "İlk Oluşturulan";
+"Last Created" = "Son Oluşturulan";
+
+/// Add View
+
+"Add Reminder" = "Hatırlatıcı Ekle";
+"Remind Again" = "Tekrar Hatırlat";
+"Add Time" = "Saat Ekle";
+"Title" = "Başlık";
+"Repeat" = "Tekrarla";
+
+/// Edit View
+
+"Edit Reminder" = "Hatırlatıcıyı Düzenle";
+
+/// Repeat View
+
+"Everyday" = "Her Gün";
+"Every %@" = "Her %@";
+
+/// About View
+
+"About" = "Hakkında";
+"Contact" = "Bize Ulaşın";
+"Privacy Policy" = "Gizlilik Politikası";
+"Rate the App" = "Uygulamayı Değerlendir";
+
+/// Long Texts
+
+"Notifications must be enabled to recieve alerts." = "Hatırlatıcılar için bildirimlerinizin açık olması gerekli.";
+"You cannot send email before setting up an account in Mail app." = "Mail uygulamasında hesap oluşturmanız gerekli.";
+

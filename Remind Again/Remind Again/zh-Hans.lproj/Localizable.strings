@@ -1,0 +1,55 @@
+/* 
+  Localizable.strings
+  Remind Again
+
+  Created by Yasin on 17.11.2021.
+  
+*/
+
+
+/// Main Screen
+
+"Reminders" = "提醒事项";
+
+/// Buttons
+
+"Cancel" = "取消";
+"Save" = "节省";
+"Done" = "完毕";
+
+/// Sort
+
+"A-to-Z" = "第一个字母到最后一个字母";
+"Z-to-A" = "最后一个字母到第一个字母";
+"First Created" = "首先创建";
+"Last Created" = "最后创建";
+
+/// Add View
+
+"Add Reminder" = "添加提醒";
+"Remind Again" = "再次提醒";
+"Add Time" = "添加时间";
+"Title" = "标题";
+"Repeat" = "重复";
+
+/// Edit View
+
+"Edit Reminder" = "编辑提醒";
+
+/// Repeat View
+
+"Everyday" = "每天";
+"Every %@" = "每 %@";
+
+/// About View
+
+"About" = "关于";
+"Contact" = "联系我们";
+"Privacy Policy" = "隐私政策";
+"Rate the App" = "对申请进行评级";
+
+/// Long Texts
+
+"Notifications must be enabled to recieve alerts." = "必须启用通知才能接收警报。";
+"You cannot send email before setting up an account in Mail app." = "在邮件应用程序中设置帐户之前,您不能发送电子邮件.";
+

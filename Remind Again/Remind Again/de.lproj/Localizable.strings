@@ -1,10 +1,11 @@
-/*
-  Localized.strings
+/* 
+  Localizable.strings
   Remind Again
 
-  Created by Yasin on 8.11.2021.
+  Created by Yasin on 17.11.2021.
   
 */
+
 
 /// Main Screen
 
@@ -29,7 +30,7 @@
 "Remind Again" = "Wieder Erinnern";
 "Add Time" = "Zeit Hinzufügen";
 "Title" = "Titel";
-"Repeat" = "Wiederholen"
+"Repeat" = "Wiederholen";
 
 /// Edit View
 

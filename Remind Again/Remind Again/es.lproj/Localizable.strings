@@ -1,0 +1,55 @@
+/* 
+  Localizable.strings
+  Remind Again
+
+  Created by Yasin on 17.11.2021.
+  
+*/
+
+
+/// Main Screen
+
+"Reminders" = "Recordatorios";
+
+/// Buttons
+
+"Cancel" = "Cancelar";
+"Save" = "Guardar";
+"Done" = "Terminado";
+
+/// Sort
+
+"A-to-Z" = "De A a U";
+"Z-to-A" = "De U a A";
+"First Created" = "Primera Creación";
+"Last Created" = "Última Creación";
+
+/// Add View
+
+"Add Reminder" = "Añadir recordatorio";
+"Remind Again" = "Recordar De Nuevo";
+"Add Time" = "Añadir Tiempo";
+"Title" = "Titular";
+"Repeat" = "Repetir";
+
+/// Edit View
+
+"Edit Reminder" = "Editar recordatorio";
+
+/// Repeat View
+
+"Everyday" = "Todos los días";
+"Every %@" = "Todos los %@";
+
+/// About View
+
+"About" = "Sobre";
+"Contact" = "Contacto";
+"Privacy Policy" = "Política de Privacidad";
+"Rate the App" = "Calificar la Aplicación";
+
+/// Long Texts
+
+"Notifications must be enabled to recieve alerts." = "Las notificaciones deben estar habilitadas para recibir alertas.";
+"You cannot send email before setting up an account in Mail app." = "No puede enviar correo electrónico antes de configurar una cuenta en la aplicación Mail.";
+
