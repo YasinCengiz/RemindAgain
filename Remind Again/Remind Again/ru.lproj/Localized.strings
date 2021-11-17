@@ -1,0 +1,54 @@
+/*
+  Localized.strings
+  Remind Again
+
+  Created by Yasin on 8.11.2021.
+  
+*/
+
+/// Main Screen
+
+"Reminders" = "Напоминания";
+
+/// Buttons
+
+"Cancel" = "Отменять";
+"Save" = "Сохранить";
+"Done" = "Выполнено";
+
+/// Sort
+
+"A-to-Z" = "От А до Я";
+"Z-to-A" = "От Я до А";
+"First Created" = "Впервые Созданный";
+"Last Created" = "Последний Созданный";
+
+/// Add View
+
+"Add Reminder" = "Добавить Напоминание";
+"Remind Again" = "Напомни Еще Раз";
+"Add Time" = "Добавить Время";
+"Title" = "Заглавие";
+"Repeat" = "Повторить"
+
+/// Edit View
+
+"Edit Reminder" = "Редактировать напоминание";
+
+/// Repeat View
+
+"Everyday" = "Каждый день";
+"Every %@" = "Каждый %@";
+
+/// About View
+
+"About" = "О приложении";
+"Contact" = "Контакт";
+"Privacy Policy" = "Политика конфиденциальности";
+"Rate the App" = "Оцените приложение";
+
+/// Long Texts
+
+"Notifications must be enabled to recieve alerts." = "Уведомления должны быть включены, чтобы получать оповещения.";
+"You cannot send email before setting up an account in Mail app." = "Вы не можете отправить электронную почту до настройки учетной записи в приложении Почта.";
+
