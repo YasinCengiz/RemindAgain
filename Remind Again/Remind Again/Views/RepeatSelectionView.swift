@@ -47,8 +47,8 @@ struct RepeatSelectionView: View {
                     }
                 }, label: {
                     HStack {
-                        Text("Every " + repeatedDay.day)
-                            .foregroundColor(Color(.label))
+                        Text("Every \(repeatedDay.day)")
+                           .foregroundColor(Color(.label))
                         Spacer()
                         if repeatTime.contains(repeatedDay) {
                             Image(systemName: "checkmark")

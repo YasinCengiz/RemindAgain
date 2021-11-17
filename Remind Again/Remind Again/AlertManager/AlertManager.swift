@@ -35,9 +35,11 @@ public final class AlertManager {
 
     public init(id: String) {
         self.id = id
+        // Localized title for notifications
+        let localizedDone = NSLocalizedString("Done", comment: "Done")
         // Define the custom actions
         let doneAction = UNNotificationAction(identifier: "DONE_ACTION",
-                                              title: "Done",
+                                              title: localizedDone,
                                               options: [])
         // Define the notification type
         let actionCategory = UNNotificationCategory(identifier: "DONE_ACTION_NOTIFIER",

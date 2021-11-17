@@ -77,9 +77,9 @@
             continueAfterRunningActions = "No"
             filePath = "Remind Again/AlertManager/AlertManager.swift"
             startingColumnNumber = "31"
-            endingColumnNumber = "39"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
+            endingColumnNumber = "31"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
             landmarkName = "scheduleNotifications(context:alerts:)"
             landmarkType = "7">
          </BreakpointContent>

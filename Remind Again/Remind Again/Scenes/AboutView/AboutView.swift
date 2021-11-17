@@ -7,6 +7,7 @@
 
 import SwiftUI
 import MessageUI
+import StoreKit
 
 struct MailView: UIViewControllerRepresentable {
     
@@ -34,9 +35,10 @@ struct MailView: UIViewControllerRepresentable {
     func makeUIViewController(context: UIViewControllerRepresentableContext<MailView>) -> MFMailComposeViewController {
         let vc = MFMailComposeViewController()
         vc.mailComposeDelegate = context.coordinator
-        vc.setToRecipients(["yasin.cengiz@icloud.com"])
+        vc.setToRecipients(["remindagain@icloud.com"])
         vc.setSubject("Feedback for Remind Again")
         vc.setMessageBody("""
+        Please do not delete the lines below.
         Remind Again \(BuildEnvironment.current.version) (\(BuildEnvironment.current.build))
         \(BuildEnvironment.current.systemVersion)
         """, isHTML: false)
@@ -164,6 +166,11 @@ struct AboutView: View {
                             .cornerRadius(6)
                         Button {
                             // Rate the app
+                            if let scene = UIApplication.shared.connectedScenes
+                                    .first(where: { $0.activationState == .foregroundActive })
+                                    as? UIWindowScene {
+                                SKStoreReviewController.requestReview(in: scene)
+                            }
                         } label: {
                             Text("Rate the App")
                                 .foregroundColor(Color(uiColor: .label))
